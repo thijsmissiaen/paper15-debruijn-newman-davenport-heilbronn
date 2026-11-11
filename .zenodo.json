@@ -1,6 +1,6 @@
 {
   "title": "Stieltjes Regimes of Polya-Schur Multipliers and Strict de Bruijn-Newman Bounds for the Davenport-Heilbronn Function",
-  "description": "Classifies real entire Polya-Schur multipliers G(-d^2/dz^2) acting on the completed Davenport-Heilbronn function Xi_DH(z) into three asymptotic Stieltjes logarithmic-derivative regimes governed by the Bohr-Kronecker supremum sigma* = 1.120362498183325..., constructs lacunary canonical products showing that upper order rho(G) in (1/2, 1) fails without root-gap regularity, certifies via a 64-ball FLINT/Arb parametric Interval-Newton cover that Polya's hyperbolic sinc multiplier strictly separates global real-rootedness from the infinite-height Kronecker threshold (sigma* - 1/2 < 311/500 < h_global*(G_sinc)), and proves the unconditional strict two-sided bounds Lambda_zeta <= 1/5 < 1153/5000 < Lambda_DH < 2*(sigma* - 1/2)^2 = 0.769699258304...",
+  "description": "Classifies real entire Polya-Schur multipliers G(-d^2/dz^2) acting on the completed Davenport-Heilbronn function Xi_DH(z) into three asymptotic Stieltjes logarithmic-derivative regimes governed by the Bohr-Kronecker supremum sigma* = 1.120362498183325..., constructs tower-lacunary canonical products (R_1 = 16, R_k = 2^(2^(R_{k-1}))) showing that upper order rho(G) in (1/2, 1) fails without root-gap regularity, certifies via a 64-ball FLINT/Arb parametric Interval-Newton cover that Polya's hyperbolic sinc multiplier strictly separates global real-rootedness from the infinite-height Kronecker threshold (sigma* - 1/2 < 311/500 < h_global*(G_sinc)), and proves the unconditional strict two-sided bounds Lambda_zeta <= 1/5 < 1153/5000 < Lambda_DH < 2*(sigma* - 1/2)^2 = 0.769699258304...",
   "upload_type": "publication",
   "publication_type": "preprint",
   "creators": [
@@ -19,6 +19,7 @@
   ],
   "access_right": "open",
   "license": "MIT",
+  "language": "eng",
   "keywords": [
     "de Bruijn-Newman constant",
     "Davenport-Heilbronn function",
