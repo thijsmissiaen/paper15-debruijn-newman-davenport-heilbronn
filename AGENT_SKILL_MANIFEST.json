@@ -1,6 +1,8 @@
 {
   "manifest_version": "1.0.0",
   "paper_number": 15,
+  "version": "15.0.0",
+  "doi": "10.5281/zenodo.24141103",
   "repository": "https://github.com/thijsmissiaen/paper15-debruijn-newman-davenport-heilbronn",
   "title": "Stieltjes Regimes of Polya-Schur Multipliers and Strict de Bruijn-Newman Bounds for the Davenport-Heilbronn Function",
   "author": {
