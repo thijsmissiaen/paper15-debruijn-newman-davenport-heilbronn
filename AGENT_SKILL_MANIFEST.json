@@ -1,0 +1,42 @@
+{
+  "manifest_version": "1.0.0",
+  "paper_number": 15,
+  "repository": "https://github.com/thijsmissiaen/paper15-debruijn-newman-davenport-heilbronn",
+  "title": "Stieltjes Regimes of Polya-Schur Multipliers and Strict de Bruijn-Newman Bounds for the Davenport-Heilbronn Function",
+  "author": {
+    "name": "Thijs Missiaen",
+    "affiliation": "Independent Researcher, Belgium",
+    "orcid": "0009-0007-3678-0810"
+  },
+  "msc_2020": ["11M41", "11M26", "30D15", "26C10", "65G20"],
+  "skill_path": ".agents/skills/debruijn-newman-davenport-heilbronn/SKILL.md",
+  "manuscript_tex": "paper/paper15_debruijn_newman_dh.tex",
+  "manuscript_pdf": "paper/paper15_debruijn_newman_dh.pdf",
+  "verification_script": "scripts/verify_paper15_debruijn_newman_dh.py",
+  "certified_theorems": [
+    {
+      "id": "Theorem 2.4 & Proposition 2.5",
+      "name": "Three-Regime Stieltjes Classification of Polya-Schur Multipliers & Lacunary Root-Gap Obstruction",
+      "status": "PROVED_UNCONDITIONAL",
+      "verification": "Stieltjes log-derivative Borel-Laplace classification on (0, 2*sigma* - 1), disjoint-interval Rolle-Hurwitz subproduct extraction under w_{j+1} - w_j = o(sqrt(w_j)), and tower-lacunary counterexample R_1 = 16, R_k = 2^(2^(R_{k-1}))"
+    },
+    {
+      "id": "Theorem 3.2",
+      "name": "Strict Separation Between Asymptotic Kronecker Type and Global Real-Rootedness for Polya's Hyperbolic Sinc Multiplier",
+      "status": "PROVED_UNCONDITIONAL",
+      "verification": "320-bit Arb IVT enclosure of sigma* = 1.120362498183... combined with 384-bit Arb Taylor + 512-arc Cauchy + Interval-Newton certificate at h = 311/500 and a 64-ball parametric continuum cover across h in [310/500, 311/500]"
+    },
+    {
+      "id": "Proposition 4.3 & Theorem 4.4",
+      "name": "Shifted Gauss-Weierstrass Asymptotic Simplicity & Strict Upper Bound Lambda_DH < 2*(sigma* - 1/2)^2",
+      "status": "PROVED_UNCONDITIONAL",
+      "verification": "Half-line Gauss-Weierstrass folding, exact boundary IBP identity, explicit Abel bound < 4*sqrt(tau), and de Bruijn equilateral-hyperbola contraction on |Re z| <= 2*gamma_0(t_1)"
+    },
+    {
+      "id": "Theorem 5.2",
+      "name": "Strict Unconditional Separation Lambda_zeta <= 1/5 < 1153/5000 < Lambda_DH via Interval-Newton Witnesses",
+      "status": "PROVED_UNCONDITIONAL",
+      "verification": "640-bit and 704-bit Arb Interval-Newton certificates near rho_240 at t = 1/5 and t = 1153/5000 = 0.2306, plus 1350-bit Arb Interval-Newton certificate near rho_531 at t = 1/5"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "title": "Stieltjes Regimes of Polya-Schur Multipliers and Strict de Bruijn-Newman Bounds for the Davenport-Heilbronn Function",
+  "description": "Classifies real entire Polya-Schur multipliers G(-d^2/dz^2) acting on the completed Davenport-Heilbronn function Xi_DH(z) into three asymptotic Stieltjes logarithmic-derivative regimes governed by the Bohr-Kronecker supremum sigma* = 1.120362498183325..., constructs lacunary canonical products showing that upper order rho(G) in (1/2, 1) fails without root-gap regularity, certifies via a 64-ball FLINT/Arb parametric Interval-Newton cover that Polya's hyperbolic sinc multiplier strictly separates global real-rootedness from the infinite-height Kronecker threshold (sigma* - 1/2 < 311/500 < h_global*(G_sinc)), and proves the unconditional strict two-sided bounds Lambda_zeta <= 1/5 < 1153/5000 < Lambda_DH < 2*(sigma* - 1/2)^2 = 0.769699258304...",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "creators": [
+    {
+      "name": "Missiaen, Thijs",
+      "affiliation": "Independent Researcher, Belgium",
+      "orcid": "0009-0007-3678-0810"
+    }
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/thijsmissiaen/paper15-debruijn-newman-davenport-heilbronn",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "access_right": "open",
+  "license": "MIT",
+  "keywords": [
+    "de Bruijn-Newman constant",
+    "Davenport-Heilbronn function",
+    "Polya-Schur multipliers",
+    "Laguerre-Polya class",
+    "Gauss-Weierstrass heat evolution",
+    "Bohr-Kronecker theorem",
+    "Rigorous interval ball arithmetic",
+    "MSC 11M41",
+    "MSC 11M26",
+    "MSC 30D15",
+    "MSC 26C10",
+    "MSC 65G20"
+  ],
+  "version": "15.0.0"
+}
