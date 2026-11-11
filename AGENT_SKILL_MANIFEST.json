@@ -1,10 +1,10 @@
 {
   "manifest_version": "1.0.0",
   "paper_number": 15,
-  "version": "15.0.0",
+  "version": "15.1.0",
   "doi": "10.5281/zenodo.24141103",
   "repository": "https://github.com/thijsmissiaen/paper15-debruijn-newman-davenport-heilbronn",
-  "title": "Stieltjes Regimes of Polya-Schur Multipliers and Strict de Bruijn-Newman Bounds for the Davenport-Heilbronn Function",
+  "title": "Asymptotic Shift Thresholds for Polya-Schur Multipliers and a Certified Lower Bound on the de Bruijn-Newman Constant of the Davenport-Heilbronn Function",
   "author": {
     "name": "Thijs Missiaen",
     "affiliation": "Independent Researcher, Belgium",
@@ -17,28 +17,28 @@
   "verification_script": "scripts/verify_paper15_debruijn_newman_dh.py",
   "certified_theorems": [
     {
-      "id": "Theorem 2.4 & Proposition 2.5",
-      "name": "Three-Regime Stieltjes Classification of Polya-Schur Multipliers & Lacunary Root-Gap Obstruction",
+      "id": "Theorem 2.6 & Proposition 2.7",
+      "name": "Sufficient Stieltjes Shift Conditions on Polya-Schur Multipliers & Lacunary Root-Gap Obstruction",
       "status": "PROVED_UNCONDITIONAL",
-      "verification": "Stieltjes log-derivative Borel-Laplace classification on (0, 2*sigma* - 1), disjoint-interval Rolle-Hurwitz subproduct extraction under w_{j+1} - w_j = o(sqrt(w_j)), and tower-lacunary counterexample R_1 = 16, R_k = 2^(2^(R_{k-1}))"
+      "verification": "Conjugate-diagram Borel-Laplace cap asymptotics (generalizing Dobner 2021), single-zero syndetic Dirichlet translation avoiding Righetti (2017) non-density, diagonal Bohr compactness + seamless Rouche rectangles on tau > 2*sigma* - 1, subproduct extraction under w_{j+1} - w_j = o(sqrt(w_j)), and tower-lacunary counterexample R_1 = 16, R_k = 2^(2^(R_{k-1}))"
     },
     {
       "id": "Theorem 3.2",
-      "name": "Strict Separation Between Asymptotic Kronecker Type and Global Real-Rootedness for Polya's Hyperbolic Sinc Multiplier",
+      "name": "Global Bounds and Strict Threshold Separation for Polya's Hyperbolic Sinc Multiplier",
       "status": "PROVED_UNCONDITIONAL",
-      "verification": "320-bit Arb IVT enclosure of sigma* = 1.120362498183... combined with 384-bit Arb Taylor + 512-arc Cauchy + Interval-Newton certificate at h = 311/500 and a 64-ball parametric continuum cover across h in [310/500, 311/500]"
+      "verification": "320-bit Arb IVT enclosure of sigma* (r = 10^-30), singularity-free 400-ball Arb Interval-Newton continuation across all h in [0, 311/500] near rho_2442 plus r = 10^-30 point enclosure at h = 311/500, and explicit Binet-Stirling global upper bound h_global*(G_sinc; Xi_DH) <= 31"
     },
     {
-      "id": "Proposition 4.3 & Theorem 4.4",
-      "name": "Shifted Gauss-Weierstrass Asymptotic Simplicity & Strict Upper Bound Lambda_DH < 2*(sigma* - 1/2)^2",
+      "id": "Proposition 4.3 & Corollary 4.4",
+      "name": "Gauss-Weierstrass Height Cutoff and Ki-Kim-Lee Strict Upper Bound Lambda_DH < 2*(sigma* - 1/2)^2",
       "status": "PROVED_UNCONDITIONAL",
-      "verification": "Half-line Gauss-Weierstrass folding, exact boundary IBP identity, explicit Abel bound < 4*sqrt(tau), and de Bruijn equilateral-hyperbola contraction on |Re z| <= 2*gamma_0(t_1)"
+      "verification": "Shifted Gauss-Weierstrass contour analysis (theta = pi*t/8), explicit Abel bound < 4*sqrt(tau), and Davenport-Heilbronn adaptation of Ki-Kim-Lee (2009) finite-box hyperbola argument"
     },
     {
       "id": "Theorem 5.2",
-      "name": "Strict Unconditional Separation Lambda_zeta <= 1/5 < 1153/5000 < Lambda_DH via Interval-Newton Witnesses",
+      "name": "Certified Lower Bound Lambda_DH > 1153/5000 via 448-Bit Interval-Newton Enclosure",
       "status": "PROVED_UNCONDITIONAL",
-      "verification": "640-bit and 704-bit Arb Interval-Newton certificates near rho_240 at t = 1/5 and t = 1153/5000 = 0.2306, plus 1350-bit Arb Interval-Newton certificate near rho_531 at t = 1/5"
+      "verification": "448-bit FLINT/Arb Gauss-Legendre ball quadrature with third-order derivative Taylor enclosure (radius 10^-32) near rho_240 at exact rational t = 1153/5000 = 0.2306"
     }
   ]
 }
