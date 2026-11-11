@@ -1,5 +1,6 @@
 # Stieltjes Regimes of Pólya–Schur Multipliers and Strict de Bruijn–Newman Bounds for the Davenport–Heilbronn Function
 
+**DOI (Zenodo / CERN):** [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24141103.svg)](https://doi.org/10.5281/zenodo.24141103) [`10.5281/zenodo.24141103`](https://doi.org/10.5281/zenodo.24141103)  
 **Author:** Thijs Missiaen (Independent Researcher, Belgium · ORCID: [0009-0007-3678-0810](https://orcid.org/0009-0007-3678-0810))  
 **Series:** Transverse Wronskian & Phase-Space Analysis of Riemann's $\Xi$-Function (Paper XV)  
 **MSC 2020:** Primary 11M41, 11M26; Secondary 30D15, 26C10, 65G20

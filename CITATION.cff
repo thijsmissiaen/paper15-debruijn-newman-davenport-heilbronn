@@ -8,6 +8,7 @@ authors:
     orcid: "https://orcid.org/0009-0007-3678-0810"
 title: "Stieltjes Regimes of Polya-Schur Multipliers and Strict de Bruijn-Newman Bounds for the Davenport-Heilbronn Function"
 version: "15.0.0"
+doi: "10.5281/zenodo.24141103"
 date-released: "2026-11-11"
 url: "https://github.com/thijsmissiaen/paper15-debruijn-newman-davenport-heilbronn"
 repository-code: "https://github.com/thijsmissiaen/paper15-debruijn-newman-davenport-heilbronn"
