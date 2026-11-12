@@ -50,7 +50,7 @@
 \begin{document}
 
 \begin{abstract}
-We establish sufficient asymptotic shift conditions for real entire P\'olya--Schur multipliers $G(-\partial_z^2)$ acting on the completed Davenport--Heilbronn function $\Xi_{\mathrm{DH}}(z)$ and certify explicit unconditional bounds on its de~Bruijn--Newman constant $\Lambda_{\mathrm{DH}}$. Relating $G(-\partial_z^2)\Xi_{\mathrm{DH}}(z)$ via the Stieltjes logarithmic derivative $S_G(u) = \frac{\dd}{\dd u}\log G(u^2)$ to vertical shifts relative to $\sigma^* := \sup\{\Reop\rho : \mathcal{D}_{\mathrm{DH}}(\rho) = 0\}$, we establish sufficient conditions for persistence versus finiteness of non-real zeros, construct tower-lacunary canonical products of every upper order $\rho \in (1/2, 1)$ that preserve infinitely many off-line zeros without root-gap regularity, and prove via a singularity-free interval-arithmetic continuation across $h \in [0, 311/500]$ that P\'olya's hyperbolic sinc multiplier strictly separates global real-rootedness from the infinite-height threshold: $\sigma^* - 1/2 < 311/500 < h_{\mathrm{global}}^*(G_{\mathrm{sinc}}; \Xi_{\mathrm{DH}}) \le 31$. Combining complex Interval--Newton off-real zero enclosures under backward heat evolution with an adaptation of the Ki--Kim--Lee upper-bound method yields $1153/5000 < \Lambda_{\mathrm{DH}} < 2(\sigma^* - 1/2)^2$.
+We establish sufficient asymptotic shift conditions for real entire P\'olya--Schur multipliers $G(-\partial_z^2)$ acting on the completed Davenport--Heilbronn function $\Xi_{\mathrm{DH}}(z)$ and certify unconditional bounds on its de~Bruijn--Newman constant $\Lambda_{\mathrm{DH}}$. Via the Stieltjes logarithmic derivative $S_G(u)$ relative to $\sigma^* := \sup\{\Reop\rho : \mathcal{D}_{\mathrm{DH}}(\rho) = 0\}$, we establish persistence versus finiteness thresholds for non-real zeros and construct tower-lacunary canonical products of every upper order $\rho \in (1/2, 1)$ preserving infinitely many off-line zeros. For P\'olya's sinc multiplier, singularity-free interval continuation across $h \in [0, 5/8]$ and a doubling identity yield $\sigma^* - 1/2 = h_{\mathrm{global}}^*(G_{\mathrm{cosh}}; \Xi_{\mathrm{DH}}) < 5/8 < h_{\mathrm{global}}^*(G_{\mathrm{sinc}}; \Xi_{\mathrm{DH}}) \le 2\sigma^* - 1$, while conditionally under RH and GRH for $L(s,\chi_{5,\mathrm{quad}})$ only finitely many ($\ge 8$) non-real zeros remain at $h_* = \sigma^* - 1/2$. Finally, Interval--Newton enclosures and the Ki--Kim--Lee method yield $28825920237/125000000000 < \Lambda_{\mathrm{DH}} < 2(\sigma^* - 1/2)^2$.
 \end{abstract}
 
 \maketitle
@@ -93,14 +93,14 @@ Let $\mathcal{G}_0$ denote the class of real entire P\'olya--Schur multipliers $
   \begin{equation}
     h_{\mathrm{global}}^*\!\left(G_{\mathrm{cosh}}; \Xi_{\mathrm{DH}}\right)
     = \sigma^* - \tfrac{1}{2}
-    < \frac{311}{500}
+    < \frac{5}{8}
     < h_{\mathrm{global}}^*\!\left(G_{\mathrm{sinc}}; \Xi_{\mathrm{DH}}\right)
-    \le 31.
+    \le 2\sigma^* - 1.
     \label{eq:global-vs-asymp}
   \end{equation}
   \item \emph{Unconditional bounds on $\Lambda_{\mathrm{DH}}$.} Under backward heat evolution $H_t^{\mathrm{DH}}(z) := \ee^{-t\partial_z^2}\Xi_{\mathrm{DH}}(z)$, the de~Bruijn--Newman constant $\Lambda_{\mathrm{DH}} := \inf\{t \in \R : H_t^{\mathrm{DH}} \text{ has only real zeros}\}$ satisfies
   \begin{equation}
-    \frac{1153}{5000}
+    \frac{28825920237}{125000000000}
     < \Lambda_{\mathrm{DH}}
     < 2\Bigl(\sigma^* - \tfrac{1}{2}\Bigr)^2.
     \label{eq:lambda-dh-chain}
@@ -109,13 +109,14 @@ Let $\mathcal{G}_0$ denote the class of real entire P\'olya--Schur multipliers $
 \end{theorem}
 
 The constants in Theorem~\ref{thm:main} are certified in interval ball arithmetic (Lemma~\ref{lem:bohr-enclosure}) to satisfy
-\begin{equation}
-  \sigma^* = 1.120362498\ldots,\quad
-  h_\infty^* := \sigma^* - \tfrac{1}{2} = 0.620362498\ldots,\quad
-  2(h_\infty^*)^2 = 0.769699258\ldots
+\begin{align}
+  \sigma^* &= 1.120362498\ldots, &
+  h_\infty^* &:= \sigma^* - \tfrac{1}{2} = 0.620362498\ldots, \notag\\
+  2\sigma^* - 1 &= 1.240724996\ldots, &
+  2(h_\infty^*)^2 &= 0.769699258\ldots
   \label{eq:canonical-params}
-\end{equation}
-For comparison, Platt and Trudgian \cite{platt2021} proved unconditionally that $\Lambda_\zeta \le \frac{1}{5} = 0.2$, so \eqref{eq:lambda-dh-chain} implies in particular $\Lambda_{\mathrm{DH}} > \frac{1153}{5000} = 0.2306 > \Lambda_\zeta$.
+\end{align}
+For comparison, Platt and Trudgian \cite{platt2021} proved unconditionally that $\Lambda_\zeta \le \frac{1}{5} = 0.2$, so \eqref{eq:lambda-dh-chain} implies in particular $\Lambda_{\mathrm{DH}} > \frac{28825920237}{125000000000} = 0.230607361896 > \Lambda_\zeta$.
 
 \subsection{Proof overview}
 \label{subsec:proof-overview}
@@ -123,8 +124,8 @@ For comparison, Platt and Trudgian \cite{platt2021} proved unconditionally that 
 The proof of Theorem~\ref{thm:main} rests on three technical components:
 \begin{enumerate}[label=\textup{(\arabic*)},leftmargin=2.2em]
   \item \emph{Conjugate-diagram Borel--Laplace asymptotics and single-zero syndetic translation (Section~\ref{sec:stieltjes}):} When $\lambda = 0$ and $\lim_{u\to\infty} S_G(u) = \tau_0 \in [0,\infty)$, P\'olya's conjugate-diagram representation transfers $G(-\partial_z^2)\Xi_{\mathrm{DH}}(z)$ to a compact stadium contour around $[-\frac{\tau_0}{2}, \frac{\tau_0}{2}]$, generalizing Dobner's modified Dirichlet series \cite{dobner2021} via $h_G(\Omega(z)-\log n)/h_G(\Omega(z))$. For $0 \le \tau_0 < 2\sigma^* - 1$, translating a single off-line zero in $\Reop(s) > 1$ by Dirichlet simultaneous approximation avoids Righetti's non-density phenomenon \cite{righetti2017} and yields $\gg_G T$ non-real zeros via Rouch\'e's theorem; for $\tau_0 > 2\sigma^* - 1$, diagonal Bohr compactness on $\prod_p S^1$ and seamless Rouch\'e rectangles along $\R$ exclude non-real zeros above a finite height, while subproduct extraction on disjoint intervals $(t_m, t_{m+1})$ extends finiteness to $w_{j+1} - w_j = o(\sqrt{w_j})$.
-  \item \emph{Singularity-free interval continuation for $G_{\mathrm{sinc},h}$ across $[0, 311/500]$ (Section~\ref{sec:sinc}):} Whereas $G_{\mathrm{cosh},h}(-\partial_z^2)\Xi_{\mathrm{DH}}$ becomes globally real-rooted at $h = \sigma^* - \frac{1}{2}$ by the Hermite--Biehler theorem, rescaling $G_{\mathrm{sinc},h}(-\partial_z^2)\Xi_{\mathrm{DH}}(z)$ to the even Taylor expansion of $\frac{1}{2}\int_{-1}^{1}\tilde{\xi}_{\mathrm{DH}}(s(z)+hv)\,\dd v$ removes the apparent singularity at $h = 0$ and allows a 400-ball Interval--Newton continuation from $\rho_{2442}$ at $h = 0$ all the way to $h = \frac{311}{500}$ independently of Section~\ref{sec:stieltjes}, complemented by an explicit Binet--Stirling proof that $h_{\mathrm{global}}^*(G_{\mathrm{sinc}}; \Xi_{\mathrm{DH}}) \le 31$.
-  \item \emph{Ki--Kim--Lee asymptotic simplicity and 448-bit Interval--Newton heat enclosures (Sections~\ref{sec:upper-bound}--\ref{sec:lower-bound}):} Writing $H_t^{\mathrm{DH}}(2\gamma - 2\ii\delta) = A_t(\gamma,\delta) + \overline{A_t(\gamma,-\delta)}$ on $[0,\infty)$ and shifting the Gaussian contour by $\ii\frac{\pi t}{8}$ yields an explicit height $\gamma_0(t)$ above which all zeros of $H_t^{\mathrm{DH}}$ are real and simple, from which the Ki--Kim--Lee hyperbola argument \cite{kikimlee2009,debruijn1950} gives Corollary~\ref{cor:strict-upper-bound}, while a 448-bit \texttt{FLINT/Arb} Interval--Newton contraction with third-order derivative Taylor enclosure near $\rho_{240}$ at $t = \frac{1153}{5000}$ certifies $\Lambda_{\mathrm{DH}} > \frac{1153}{5000}$.
+  \item \emph{Singularity-free interval continuation across $[0, 5/8]$, doubling upper bound, and conditional boundary resolution for $G_{\mathrm{sinc},h}$ (Section~\ref{sec:sinc}):} Whereas $G_{\mathrm{cosh},h}(-\partial_z^2)\Xi_{\mathrm{DH}}$ becomes globally real-rooted at $h = \sigma^* - \frac{1}{2}$, a 384-bit, 360-ball singularity-free Interval--Newton continuation from $\rho_{44838}$ at $h = 0$ across all $h \in [0, \frac{5}{8}]$ (and to $h = \frac{625121}{10^6} = 0.625121$) certifies $h_{\mathrm{global}}^*(G_{\mathrm{sinc}}; \Xi_{\mathrm{DH}}) > \frac{5}{8}$ independently of Section~\ref{sec:stieltjes}, while the interval-splitting doubling identity $G_{\mathrm{sinc},2h_1}(-\partial_z^2)\Xi_{\mathrm{DH}} = G_{\mathrm{cosh},h_1}(-\partial_z^2)G_{\mathrm{sinc},h_1}(-\partial_z^2)\Xi_{\mathrm{DH}}$ immediately yields $h_{\mathrm{global}}^*(G_{\mathrm{sinc}}; \Xi_{\mathrm{DH}}) \le 2\sigma^* - 1$. At the critical boundary $h_* = \sigma^* - \frac{1}{2}$ ($\tau = 2\sigma^* - 1$), we also establish conditionally on RH for $\zeta(s)$ and GRH for $L(s, \chi_{5,\mathrm{quad}})$ that $8 \le N_{\mathrm{off}}(G_{\mathrm{sinc},h_*}(-\partial_z^2)\Xi_{\mathrm{DH}}; \infty) < \infty$ (Proposition~\ref{prop:critical-sinc}).
+  \item \emph{Ki--Kim--Lee asymptotic simplicity and 512-bit Interval--Newton heat enclosures (Sections~\ref{sec:upper-bound}--\ref{sec:lower-bound}):} Writing $H_t^{\mathrm{DH}}(2\gamma - 2\ii\delta) = A_t(\gamma,\delta) + \overline{A_t(\gamma,-\delta)}$ on $[0,\infty)$ and shifting the Gaussian contour by $\ii\frac{\pi t}{8}$ yields an explicit height $\gamma_0(t)$ above which all zeros of $H_t^{\mathrm{DH}}$ are real and simple, from which the Ki--Kim--Lee hyperbola argument \cite{kikimlee2009,debruijn1950} gives Corollary~\ref{cor:strict-upper-bound}, while a 512-bit \texttt{FLINT/Arb} Interval--Newton contraction with third-order derivative Taylor enclosure near $\rho_{240}$ at $t = \frac{28825920237}{125000000000} = 0.230607361896$ certifies $\Lambda_{\mathrm{DH}} > \frac{28825920237}{125000000000}$.
 \end{enumerate}
 
 Combining Component~(1) with Proposition~\ref{prop:lacunary} establishes Theorem~\ref{thm:main}(i); Component~(2) proves \eqref{eq:global-vs-asymp} independently of Theorem~\ref{thm:main}(i); and Component~(3) proves \eqref{eq:lambda-dh-chain}.
@@ -341,7 +342,7 @@ To produce non-real zeros in $|\Imop z| > 1$, apply Lemma~\ref{lem:dirichlet-ana
 Theorem~\ref{thm:three-regimes} and Proposition~\ref{prop:lacunary} provide sufficient conditions rather than an exhaustive characterization of $\mathcal{G}_0$. Three boundary regimes remain open:
 \begin{enumerate}[label=\textup{(\alph*)},leftmargin=1.8em]
   \item multipliers with $\lambda = 0$ whose Stieltjes derivative oscillates across the threshold, $\liminf_{u\to\infty} S_G(u) < 2\sigma^* - 1 < \limsup_{u\to\infty} S_G(u)$, without root-gap regularity;
-  \item the critical boundary case $\lambda = 0$ and $\lim_{u\to\infty} S_G(u) = 2\sigma^* - 1$, where the shifted abscissa $\frac{1}{2} + \frac{\tau_0}{2} = \sigma^*$ meets the supremum of off-line zeros without a uniform positive lower bound on $|\mathcal{D}_{\mathrm{DH}}|$; and
+  \item the critical boundary case $\lambda = 0$ and $\lim_{u\to\infty} S_G(u) = 2\sigma^* - 1$, where the shifted abscissa $\frac{1}{2} + \frac{\tau_0}{2} = \sigma^*$ meets the supremum of off-line zeros without a uniform positive lower bound on $|\mathcal{D}_{\mathrm{DH}}|$ (for $G_{\mathrm{sinc},\sigma^*-1/2}$, Proposition~\ref{prop:critical-sinc} proves $8 \le N_{\mathrm{off}} < \infty$ conditionally on RH for $\zeta(s)$ and GRH for $L(s,\chi_{5,\mathrm{quad}})$, while Remark~\ref{rem:vk-baker} records the unconditional Vinogradov--Korobov and Baker--W\"ustholz barriers); and
   \item multipliers with $\lambda = 0$ and lower order $\underline{\rho}(G) > \frac{1}{2}$ (so $\lim_{u\to\infty} S_G(u) = +\infty$) whose roots contain clusters violating $w_{j+1} - w_j = o(\sqrt{w_j})$ and admitting no supercritical regular subproduct.
 \end{enumerate}
 \end{remark}
@@ -361,7 +362,7 @@ The unique root $\sigma^* > 1$ of the Bombieri--Ghosh prime-angle identity $\sum
 Moreover, every zero $\rho = \sigma + \ii\gamma$ of $\mathcal{D}_{\mathrm{DH}}(s)$ satisfies $\sigma < \sigma^*$ strictly, every zero of $\Xi_{\mathrm{DH}}(z)$ satisfies $|\Imop z| < 2(\sigma^* - \frac{1}{2})$, and
 \begin{equation}
   h_{\mathrm{global}}^*\!\left(G_{\mathrm{cosh}}; \Xi_{\mathrm{DH}}\right)
-  = \sigma^* - \tfrac{1}{2} \in \Bigl(\frac{310}{500}, \frac{311}{500}\Bigr).
+  = \sigma^* - \tfrac{1}{2} \in \Bigl(\frac{310}{500}, \frac{5}{8}\Bigr).
   \label{eq:cosh-global-threshold}
 \end{equation}
 \end{lemma}
@@ -385,61 +386,96 @@ Consequently, Lemma~\ref{lem:hermite-biehler}(ii) implies that $G_{\mathrm{cosh}
 \label{thm:sinc-separation}
 \leavevmode
 \begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.0em]
-  \item For every $h \in [0, \frac{311}{500}]$, the entire function $G_{\mathrm{sinc},h}(-\partial_z^2)\Xi_{\mathrm{DH}}(z)$ possesses at least one non-real zero; at $h = \frac{311}{500} = 0.622 > \sigma^* - \frac{1}{2}$, it possesses a certified simple non-real zero in the box $B_{\mathrm{sinc}} := \{z \in \C : |\Reop(z - z_{\mathrm{sinc}})| \le 10^{-30},\; |\Imop(z - z_{\mathrm{sinc}})| \le 10^{-30}\}$ centered at
+  \item For every $h \in [0, \frac{5}{8}]$, the entire function $G_{\mathrm{sinc},h}(-\partial_z^2)\Xi_{\mathrm{DH}}(z)$ possesses at least one non-real zero; at $h = \frac{5}{8} = 0.625 > \sigma^* - \frac{1}{2}$, it possesses a certified simple non-real zero in the box $B_{5/8} := \{z \in \C : |\Reop(z - z_{44838})| \le 10^{-30},\; |\Imop(z - z_{44838})| \le 10^{-30}\}$ centered at
   \begin{equation}
     \begin{aligned}
-      z_{\mathrm{sinc}} &= 4884.88665419175715643333300197615178 \\
-      &\quad - 0.056004628860858072317639148896287841\,\ii,
+      z_{44838} &= 89676.898678875343559173771577620034736 \\
+      &\quad - 0.01056386075347512714311622077705919110\,\ii,
     \end{aligned}
     \label{eq:z-sinc-center}
   \end{equation}
-  originating at $h = 0$ from the zero $\rho_{2442} = 0.89775015\ldots + 2442.53029247\ldots\,\ii$ of $\mathcal{D}_{\mathrm{DH}}(s)$.
-  \item Conversely, for every $h \ge 31$, all zeros of $G_{\mathrm{sinc},h}(-\partial_z^2)\Xi_{\mathrm{DH}}(z)$ are real.
+  originating at $h = 0$ from the zero $\rho_{44838} = 0.91613758\ldots + 44838.47521067\ldots\,\ii$ of $\mathcal{D}_{\mathrm{DH}}(s)$ (and persisting at $h = \frac{625121}{10^6} = 0.625121$).
+  \item Conversely, for every $h \ge 2\sigma^* - 1$, all zeros of $G_{\mathrm{sinc},h}(-\partial_z^2)\Xi_{\mathrm{DH}}(z)$ are real, and all are simple whenever $h > 2\sigma^* - 1$.
 \end{enumerate}
-Consequently, $\sigma^* - \frac{1}{2} = h_{\mathrm{global}}^*(G_{\mathrm{cosh}}; \Xi_{\mathrm{DH}}) < \frac{311}{500} < h_{\mathrm{global}}^*(G_{\mathrm{sinc}}; \Xi_{\mathrm{DH}}) \le 31$.
+Consequently, $\sigma^* - \frac{1}{2} = h_{\mathrm{global}}^*(G_{\mathrm{cosh}}; \Xi_{\mathrm{DH}}) < \frac{5}{8} < h_{\mathrm{global}}^*(G_{\mathrm{sinc}}; \Xi_{\mathrm{DH}}) \le 2\sigma^* - 1$.
 \end{theorem}
 
 \begin{proof}
-(i) Set $s_{\mathrm{ref}} := 0.71 + 2442.49\,\ii$, $C_{\mathrm{ref}} := \Gamma_{\mathrm{DH}}(s_{\mathrm{ref}}) \ne 0$, and $\tilde{\xi}_{\mathrm{DH}}(s) := \xi_{\mathrm{DH}}(s)/C_{\mathrm{ref}}$. By Fubini's theorem on $G_{\mathrm{sinc},h}(u^2) = \frac{1}{2}\int_{-1}^{1}\ee^{2huv}\,\dd v$, we have for all $z \in \C$ and all $h \in \R$ (including $h = 0$, with no division by $h$) the singularity-free power-series identity
+(i) Set $s_{\mathrm{ref}} := \frac{1}{2} + 44838.46\,\ii$, $C_{\mathrm{ref}} := \Gamma_{\mathrm{DH}}(s_{\mathrm{ref}}) \ne 0$, and $\tilde{\xi}_{\mathrm{DH}}(s) := \xi_{\mathrm{DH}}(s)/C_{\mathrm{ref}}$. By Fubini's theorem on $G_{\mathrm{sinc},h}(u^2) = \frac{1}{2}\int_{-1}^{1}\ee^{2huv}\,\dd v$, expanding $\tilde{\xi}_{\mathrm{DH}}(s_{\mathrm{ref}} + w) = \sum_{k=0}^{\infty} c_k w^k$ ($c_k := \tilde{\xi}_{\mathrm{DH}}^{(k)}(s_{\mathrm{ref}})/\Gamma(k+1)$) yields for all $z \in \C$ and all $h \in \R$ (including $h = 0$, with no division by $h$) the singularity-free power-series identity
 \begin{equation}
-  g_{\mathrm{sinc}}(z, h)
-  := C_{\mathrm{ref}}^{-1}\,G_{\mathrm{sinc},h}(-\partial_z^2)\Xi_{\mathrm{DH}}(z)
-  = \frac{1}{2}\int_{-1}^{1} \tilde{\xi}_{\mathrm{DH}}\bigl(s(z) + hv\bigr)\,\dd v
-  = \sum_{m=0}^{\infty} \frac{\tilde{\xi}_{\mathrm{DH}}^{(2m)}(s(z))}{\Gamma(2m + 2)}\,h^{2m}.
+  \begin{aligned}
+    g_{\mathrm{sinc}}(z, h)
+    &:= C_{\mathrm{ref}}^{-1}\,G_{\mathrm{sinc},h}(-\partial_z^2)\Xi_{\mathrm{DH}}(z)
+    = \frac{1}{2}\int_{-1}^{1} \tilde{\xi}_{\mathrm{DH}}\bigl(s(z) + hv\bigr)\,\dd v \\
+    &= \sum_{k=0}^{\infty} c_k \sum_{m=0}^{\lfloor k/2\rfloor}\binom{k}{2m}\frac{\bigl(s(z) - s_{\mathrm{ref}}\bigr)^{k-2m}}{2m + 1}\,h^{2m}.
+  \end{aligned}
   \label{eq:gsinc-regular}
 \end{equation}
-Covering the circle $|w - s_{\mathrm{ref}}| = \frac{9}{2}$ by $512$ overlapping complex interval arcs in 320-bit \texttt{FLINT/Arb} arithmetic certifies $M_{9/2} := \sup_{|w - s_{\mathrm{ref}}| = 9/2}|\tilde{\xi}_{\mathrm{DH}}(w)| \le 1.123 \times 10^8$ (Appendix~\ref{app:truncation-bounds}). Along the trajectory from $h = 0$ to $h = \frac{311}{500}$, $|s(z_k) - s_{\mathrm{ref}}| < \frac{1}{4}$, so $\tilde{\xi}_{\mathrm{DH}}(s(z_k) + w)$ is analytic on $|w| \le R_k := \frac{9}{2} - |s(z_k) - s_{\mathrm{ref}}| > \frac{17}{4}$ with Cauchy coefficient bounds $|\tilde{\xi}_{\mathrm{DH}}^{(n)}(s(z_k))|/\Gamma(n + 1) \le M_{9/2} R_k^{-n}$. Partitioning the entire compact interval $[0, \frac{311}{500}]$ into $400$ overlapping interval balls $H_k = [h_k \pm \eta_k]$ ($180$ balls on $[0, \frac{285}{500}]$ with square-box radius $r_k = 6 \times 10^{-3}$, $120$ balls on $[\frac{285}{500}, \frac{308}{500}]$ with $r_k = 2.5 \times 10^{-3}$, and $100$ balls on $[\frac{308}{500}, \frac{311}{500}]$ with $r_k = 1.2 \times 10^{-3}$, with $0 \in H_1$ and $\frac{311}{500} \in H_{400}$), our 320-bit verification script encloses $g_{\mathrm{sinc}}(z_k, h_k)$, $\partial_h g_{\mathrm{sinc}}(z_k, H_k)$, and $\partial_z g_{\mathrm{sinc}}(B_k, H_k)$ (via third-order Taylor expansion in $z - z_k$ with $\sup_{z \in B_k}|z - z_k| = \sqrt{2}\,r_k$ and fourth-derivative Cauchy remainder on $R_k - \frac{\sqrt{2}}{2}r_k - \sup|H_k| > \frac{7}{2}$) and verifies that
+Covering $|w - s_{\mathrm{ref}}| = 3$ by $256$ overlapping complex interval arcs in 384-bit \texttt{FLINT/Arb} arithmetic certifies $M_3 := \sup_{|w - s_{\mathrm{ref}}| = 3}|\tilde{\xi}_{\mathrm{DH}}(w)| \le 5.934 \times 10^8$ (Appendix~\ref{app:truncation-bounds}), so $|c_k| \le M_3\cdot 3^{-k}$. Along the branch from $h = 0$ to $h = \frac{5}{8}$, every evaluation box $B_k \times H_k$ ($B_k := \{z : |\Reop(z - z_k)| \le r_k,\; |\Imop(z - z_k)| \le r_k\}$, $\sup_{z \in B_k}|z - z_k| = \sqrt{2}\,r_k$) satisfies $r_{\max} := \sup_{z \in B_k}|s(z) - s_{\mathrm{ref}}| + \sup|H_k| < \frac{6}{5}$, giving truncation ratio $q := r_{\max}/3 < \frac{2}{5}$. Partitioning $[0, \frac{5}{8}]$ into $360$ overlapping interval balls $H_k = [h_k \pm \eta_k]$ ($120$ balls on $[0, 0.55]$ with $r_k = 8 \times 10^{-3}$, $100$ balls on $[0.55, 0.620]$ with $r_k = 3 \times 10^{-3}$, $80$ balls on $[0.620, 0.6247]$ with $r_k = 8 \times 10^{-4}$, and $60$ balls on $[0.6247, \frac{5}{8}]$ with $r_k = 2 \times 10^{-4}$, with $0 \in H_1$ and $\frac{5}{8} \in H_{360}$), our 384-bit verification script truncates \eqref{eq:gsinc-regular} and its $z$- and $h$-derivatives at order $K = 52$ (with analytical Cauchy remainders $\le M_3 q^{52}/(1 - q)$ and $\le \frac{52 M_3}{3}q^{51}/(1 - q)^2$) and verifies across all $360$ slices that
 \begin{equation*}
   \begin{aligned}
     N(B_k, H_k)
     &:= z_k - \frac{g_{\mathrm{sinc}}(z_k, h_k) + (H_k - h_k)\,\partial_h g_{\mathrm{sinc}}(z_k, H_k)}{\partial_z g_{\mathrm{sinc}}(B_k, H_k)}
     \subset \operatorname{int}(B_k), \\
-    \Imop N(B_k, H_k) &< 0
+    \Imop N(B_k, H_k) &< 0,
   \end{aligned}
 \end{equation*}
-across all $400$ slices, together with $N(B_{k-1}, h_{k-1,k}) \subset B_k$ at each overlap midpoint $h_{k-1,k} \in H_{k-1} \cap H_k$ ($2 \le k \le 400$) so uniqueness in $B_k$ glues the slices into the single continuous zero branch originating from $\rho_{2442}$ at $h = 0$. At $h = \frac{311}{500}$, evaluating the 64-term Taylor series at $z_{\mathrm{sinc}}$ (remainder $\le M_{9/2}(h/R_{\mathrm{pt}})^{64}/(1 - h/R_{\mathrm{pt}}) < 10^{-46}$) and the difference quotient $\partial_z g_{\mathrm{sinc}}(B_{\mathrm{sinc}}, \frac{311}{500}) = \frac{\ii}{4h}[\tilde{\xi}_{\mathrm{DH}}(s(B_{\mathrm{sinc}})+h) - \tilde{\xi}_{\mathrm{DH}}(s(B_{\mathrm{sinc}})-h)]$ certifies $B_{\mathrm{sinc}} \subset B_{400}$, $N(B_{\mathrm{sinc}}) \subset \operatorname{int}(B_{\mathrm{sinc}})$, and $\Imop N(B_{\mathrm{sinc}}) < 0$, proving~\eqref{eq:z-sinc-center} and $h_{\mathrm{global}}^*(G_{\mathrm{sinc}}; \Xi_{\mathrm{DH}}) > \frac{311}{500}$ (Figure~\ref{fig:stieltjes-sinc}).
+together with $B(-2\ii(\rho_{44838} - \frac{1}{2}), 10^{-12}) \subset B_1$ at $h = 0$ and $N(B_{k-1}, h_{k-1,k}) \subset B_k$ at each overlap midpoint $h_{k-1,k} \in H_{k-1} \cap H_k$ ($2 \le k \le 360$), gluing the slices into a single continuous non-real zero trajectory across $[0, \frac{5}{8}]$. At $h = \frac{5}{8}$ (and likewise at $h = \frac{625121}{10^6}$), evaluating the order-$128$ antiderivative difference $(2h)^{-1}\sum_{k=0}^{127}\frac{c_k}{k+1}[(u_+)^{k+1} - (u_-)^{k+1}]$ ($u_\pm := s(z) - s_{\mathrm{ref}} \pm h$, remainder $\le M_3 q^{128}/(1-q) < 10^{-48}$) and $\partial_z g_{\mathrm{sinc}}(B_{5/8}, \frac{5}{8}) = \frac{\ii}{4h}[\tilde{\xi}_{\mathrm{DH}}(s(B_{5/8})+h) - \tilde{\xi}_{\mathrm{DH}}(s(B_{5/8})-h)]$ certifies $B_{5/8} \subset B_{360}$, $N(B_{5/8}) \subset \operatorname{int}(B_{5/8})$, and $\Imop N(B_{5/8}) < 0$, proving~\eqref{eq:z-sinc-center} and $h_{\mathrm{global}}^*(G_{\mathrm{sinc}}; \Xi_{\mathrm{DH}}) > \frac{625121}{10^6} > \frac{5}{8}$ (Figure~\ref{fig:stieltjes-sinc}; similarly $\rho_{2442}$ persists past $h = \frac{311}{500}$ up to $h_{\mathrm{col}}(\rho_{2442}) \approx 0.62453$).
 
-(ii) Fix $h \ge 31$. By evenness, conjugation symmetry, and Lemma~\ref{lem:hermite-biehler}(i), every zero of $G_{\mathrm{sinc},h}(-\partial_z^2)\Xi_{\mathrm{DH}}(2\gamma - 2\ii\delta)$ satisfies $|\delta| \le \Delta := \sigma^* - \frac{1}{2} < \frac{5}{8}$, and it suffices to prove $G_{\mathrm{sinc},h}(-\partial_z^2)\Xi_{\mathrm{DH}}(2\gamma - 2\ii\delta) \ne 0$ for all $\gamma \ge 0$ and all $\delta \in (0, \Delta]$. Substituting $v = \delta + u$ in $\int_{-h}^{h}\xi_{\mathrm{DH}}(\frac{1}{2} + \delta + u + \ii\gamma)\,\dd u$ and splitting at $v = 0$ via $\xi_{\mathrm{DH}}(\frac{1}{2} - v + \ii\gamma) = \overline{\xi_{\mathrm{DH}}(\frac{1}{2} + v + \ii\gamma)}$ gives
+(ii) Although $\{G_{\mathrm{sinc},h}\}_{h > 0}$ is not a one-parameter semigroup in $h$, splitting $[-2h_1, 2h_1] = [-2h_1, 0] \cup [0, 2h_1]$ in $G_{\mathrm{sinc},2h_1}(-\partial_z^2)\Xi_{\mathrm{DH}}(z) = \frac{1}{4h_1}\int_{-2h_1}^{2h_1}\Xi_{\mathrm{DH}}(z + 2\ii v)\,\dd v$ and substituting $v = \mp h_1 + u$ ($u \in [-h_1, h_1]$) yields for every $h_1 > 0$ and all $z \in \C$ the exact doubling identity
 \begin{equation}
-  \begin{aligned}
-    2h\,G_{\mathrm{sinc},h}(-\partial_z^2)\Xi_{\mathrm{DH}}(2\gamma - 2\ii\delta)
-    &= J(\gamma, h + \delta) + \overline{J(\gamma, h - \delta)}, \\
-    J(\gamma, Y) &:= \int_{0}^{Y} \xi_{\mathrm{DH}}\!\left(\tfrac{1}{2} + v + \ii\gamma\right)\dd v.
-  \end{aligned}
-  \label{eq:sinc-J-identity}
+  G_{\mathrm{sinc},2h_1}(-\partial_z^2)\Xi_{\mathrm{DH}}(z)
+  = \tfrac{1}{2}\bigl[F_{h_1}(z - 2\ii h_1) + F_{h_1}(z + 2\ii h_1)\bigr]
+  = G_{\mathrm{cosh},h_1}(-\partial_z^2)F_{h_1}(z),
+  \label{eq:sinc-doubling}
 \end{equation}
-We show that $\Reop(J(\gamma, Y)/\partial_Y J(\gamma, Y)) > 0$ for all $Y \ge 30$ and all $\gamma \ge 0$. Set $s_+ := \frac{1}{2} + Y + \ii\gamma$ ($\partial_Y J(\gamma, Y) = \xi_{\mathrm{DH}}(s_+) \ne 0$) and $z_+ := \frac{s_+ + 1}{2} = \frac{3}{4} + \frac{Y}{2} + \frac{\ii\gamma}{2}$, so $\Reop z_+ \ge \frac{63}{4} = 15.75$, $|z_+| \ge 15.75$, and $\alpha := \frac{1}{2}\log\frac{5z_+}{\pi} = \alpha_R + \ii\alpha_I$ satisfies $\alpha_R \ge \frac{1}{2}\log\frac{5 \times 15.75}{\pi} > 1.61$ and $\alpha_I \in [0, \frac{\pi}{4})$. Substitute $v = Y - w$ ($w \in [0, Y]$) and split $[0, Y] = [0, 6] \cup [6, Y - 4] \cup [Y - 4, Y]$:
-\begin{enumerate}[label=\textup{(\alph*)},leftmargin=1.8em]
-  \item On $w \in [0, 6]$, $\Reop(s_+ - w) \ge 24.5$ gives $|\mathcal{D}_{\mathrm{DH}}(s_+ - w)/\mathcal{D}_{\mathrm{DH}}(s_+) - 1| < 10^{-6}$, while Binet's first integral $|\psi(z) - \log z + \frac{1}{2z}| \le \frac{1}{12(\Reop z)^2}$ on $\Reop(z_+ - t) \ge 12.75$ ($t \in [0, 3]$) gives $|\log\frac{\Gamma_{\mathrm{DH}}(s_+ - w)}{\Gamma_{\mathrm{DH}}(s_+)} + \alpha w| \le \frac{0.20(w^2 + 2.1w)}{|z_+|} < 0.49$, so $|\frac{\Gamma_{\mathrm{DH}}(s_+ - w)}{\Gamma_{\mathrm{DH}}(s_+)} - \ee^{-\alpha w}| \le \frac{0.33(w^2 + 2.1w)}{|z_+|}\ee^{-\alpha_R w}$. Since $\Reop(\frac{1}{\alpha}) \ge \frac{1}{\alpha_R(1 + \frac{\pi^2}{16\alpha_R^2})} > \frac{0.807}{\alpha_R}$ and $\ee^{-6\alpha_R} < 10^{-4}$, the $[0, 6]$ integral has real part $> \frac{0.76}{\alpha_R}$.
-  \item For all $z$ with $\Reop z > 0$, Binet's first integral bounds $|\log\Gamma(z) - (z - \frac{1}{2})\log z + z - \frac{1}{2}\log(2\pi)| \le \frac{1}{12\Reop z}$. Setting $g(x) := \frac{x}{2}\log\frac{\pi}{5} + \Reop[(z_+ - \frac{x}{2} - \frac{1}{2})\log(z_+ - \frac{x}{2}) - (z_+ - \frac{x}{2})]$, we have $g'(x) = -\frac{1}{2}\log(\frac{5}{\pi}|z_+ - \frac{x}{2}|) + \frac{\Reop z_+ - x/2}{4|z_+ - x/2|^2}$, which satisfies $g(6) - g(0) \le -3\log(\frac{5|z_+|}{\pi}) + 0.78$, $g'(x) < -0.64$ on $x \in [6, Y - 4]$ ($\Reop z_+ - \frac{x}{2} \ge 2.75$), and $g'(x) < +0.25$ on $x \in [Y - 4, Y]$ ($\Reop z_+ - \frac{x}{2} \ge \frac{3}{4}$). Including the Binet remainder $< 0.13$ yields $|\frac{\Gamma_{\mathrm{DH}}(s_+ - w)}{\Gamma_{\mathrm{DH}}(s_+)}| < 2.5(\frac{5|z_+|}{\pi})^{-3}\ee^{-0.64(w - 6)}$ on $[6, Y - 4]$ (where $|\mathcal{D}_{\mathrm{DH}}(s_+ - w)| \le \zeta(4.5) < 1.06$, contributing $< \frac{0.001}{\alpha_R}$) and $< 2.5\ee^{-11.8}(\frac{5|z_+|}{\pi})^{-3}$ on $[Y - 4, Y]$ (where Lemma~\ref{lem:abel-dirichlet} bounds $|\mathcal{D}_{\mathrm{DH}}(s_+ - w)| \le \max(38, 4\gamma^{1/2}) \le 38|z_+|^{1/2}$, contributing $< \frac{10^{-5}}{\alpha_R}$).
-\end{enumerate}
-Combining~(a) and~(b) gives $\Reop(J(\gamma, Y)/\partial_Y J(\gamma, Y)) > \frac{0.70}{\alpha_R} > 0$, whence $J(\gamma, Y) \ne 0$ and $\frac{\partial}{\partial Y}\log|J(\gamma, Y)| = \Reop(\partial_Y J/J) > 0$ for all $Y \ge 30$. Since $h \ge 31$ and $\delta \in (0, \Delta]$ imply $h + \delta > h - \delta \ge 31 - \frac{5}{8} > 30$, strict monotonicity gives $|J(\gamma, h + \delta)| > |J(\gamma, h - \delta)| = |\overline{J(\gamma, h - \delta)}|$ in \eqref{eq:sinc-J-identity}, so $G_{\mathrm{sinc},h}(-\partial_z^2)\Xi_{\mathrm{DH}}(2\gamma - 2\ii\delta) \ne 0$.
+where $F_{h_1}(z) := G_{\mathrm{sinc},h_1}(-\partial_z^2)\Xi_{\mathrm{DH}}(z) \not\equiv 0$. Because $F_{h_1}$ is real-even and satisfies $|F_{h_1}(z)| \ll_{h_1} \ee^{C|z|\log(|z|+2)}$, the entire function $w \mapsto F_{h_1}(\sqrt{w})$ has order $\frac{1}{2} < 1$ and Hadamard genus~$0$, so $F_{h_1}(z)$ has genus at most~$1$. By Lemma~\ref{lem:bohr-enclosure} and Lemma~\ref{lem:hermite-biehler}(i), all zeros of $F_{h_1}$ lie in $|\Imop z| \le 2(\sigma^* - \frac{1}{2})$. For every $h \ge 2\sigma^* - 1$, setting $h_1 := \frac{h}{2} \ge \sigma^* - \frac{1}{2}$ and applying Lemma~\ref{lem:hermite-biehler}(ii) to \eqref{eq:sinc-doubling} shows that all zeros of $G_{\mathrm{sinc},h}(-\partial_z^2)\Xi_{\mathrm{DH}}(z)$ are real (and simple when $h > 2\sigma^* - 1$).
 \end{proof}
+
+We next resolve the critical boundary $h_* := \sigma^* - \frac{1}{2}$ ($\lim_{u\to\infty} S_{G_{\mathrm{sinc},h_*}}(u) = 2\sigma^* - 1$, Remark~\ref{rem:open-regimes}(b)) conditionally on standard $L$-function hypotheses.
+
+\begin{proposition}[Conditional resolution at the critical half-width $h_* = \sigma^* - \frac{1}{2}$]
+\label{prop:critical-sinc}
+Assume the Riemann Hypothesis for $\zeta(s)$ and the Generalized Riemann Hypothesis for $L(s, \chi_{5,\mathrm{quad}})$, where $\chi_{5,\mathrm{quad}}$ is the real primitive Dirichlet character modulo~$5$. Then at $h_* := \sigma^* - \frac{1}{2}$, the entire function $F_*(z) := G_{\mathrm{sinc},h_*}(-\partial_z^2)\Xi_{\mathrm{DH}}(z)$ satisfies
+\begin{equation}
+  8 \le N_{\mathrm{off}}\bigl(G_{\mathrm{sinc},\sigma^*-1/2}(-\partial_z^2)\Xi_{\mathrm{DH}};\, \infty\bigr) < \infty,
+  \label{eq:critical-sinc-noff}
+\end{equation}
+where the lower bound $N_{\mathrm{off}}(F_*; \infty) \ge 8$ holds unconditionally.
+\end{proposition}
+
+\begin{proof}
+Using the 320-bit interval enclosure $H_* = [\sigma^* - \frac{1}{2}]$ of radius $10^{-30}$ from Lemma~\ref{lem:bohr-enclosure}, our verification script certifies disjoint non-real Interval--Newton boxes of radius $10^{-27}$ for $F_*(z)$ in $\{z : \Reop z > 0,\; \Imop z < 0\}$ near $\rho_{2442}$ ($\Reop z \approx 4884.89$, $\Imop z \approx -0.0719$) and near $\rho_{44838}$ ($\Reop z \approx 89676.90$, $\Imop z \approx -0.0663$); under $\{\pm z, \pm\bar{z}\}$, these yield at least $8$ distinct non-real zeros unconditionally.
+
+Assume now RH for $\zeta(s)$ and GRH for $L(s, \chi_{5,\mathrm{quad}})$. We first prove the pointwise bound $|\mathcal{D}_{\mathrm{DH}}(\sigma + \ii\gamma)| \gg (\log\gamma)^{-1/3}$ for all $\gamma \ge \gamma_0$ and all $\sigma \ge \sigma^* - (\log\gamma)^{-1/3}$. For $\sigma > 3$, $|\mathcal{D}_{\mathrm{DH}}(\sigma + \ii\gamma)| \ge 2 - \zeta(3) > \frac{3}{4}$. On $\sigma \ge 1.07$, write $\mathcal{D}_{\mathrm{DH}}(w) = \frac{1 + \ii\kappa}{2}L(w,\chi_5)(\ee^{\mathcal{L}(w)} - \ee^{\ii\theta_\kappa})$, where $\theta_\kappa := \pi - 2\arctan\kappa = 2.5880\ldots \in (\frac{\pi}{2}, \pi)$ (by~\eqref{eq:euler-ratio-sign}) and $\mathcal{L}(w) := \sum_{p \equiv 2,3 \pmod{5}}\log\frac{1 - \chi_5(p)p^{-w}}{1 + \chi_5(p)p^{-w}} =: R(w) + \ii\Phi(w)$ uses the principal branch. Euler-product comparison gives $|L(w,\chi_5)| \ge (1 + 5^{-1.07})\frac{\zeta(2.14)}{\zeta(1.07)} > \frac{3}{25}$ on $\sigma \ge 1.07$, while $2\arctan x < \log\frac{1+x}{1-x}$ ($0 < x < 1$) gives $|\Phi(w)| \le \sum_{p \equiv 2,3} 2\arctan(p^{-1.07}) < \log\frac{(1 - 5^{-1.07})\zeta(1.07)}{L(1.07,\chi_{5,\mathrm{quad}})} < 3.30 < 2\pi - \theta_\kappa - \frac{1}{3}$, so $\Phi(w) - \theta_\kappa \in [-2\pi + \frac{1}{3}, \frac{\pi}{2}]$ and hence $|\ee^{\mathcal{L}(w)} - \ee^{\ii\theta_\kappa}| \ge \min(\frac{2}{\pi}|\theta_\kappa - \Phi(w)|, \sin\frac{1}{3})$.
+
+At $w = \sigma^* + \ii\gamma$, write $r_p := p^{-\sigma^*} < \frac{1}{2}$ and $\chi_5(p)p^{-\sigma^*-\ii\gamma} = -\ii r_p\ee^{\ii\phi_p(\gamma)}$ for $p \equiv 2,3 \pmod{5}$. Since $\chi_5(p)^2 = -1$, squaring gives $\ee^{2\ii\phi_p(\gamma)} = \ee^{-2\ii\gamma\log p}$, so $1 - \cos(2\gamma\log p) = 2(1 - \cos\phi_p)(1 + \cos\phi_p) \le 4(1 - \cos\phi_p)$. By the Mean Value Theorem on $2\arctan r_p - \Imop\log\frac{1 + \ii r_p\ee^{\ii\phi_p}}{1 - \ii r_p\ee^{\ii\phi_p}} = \arctan\frac{2r_p}{1 - r_p^2} - \arctan\frac{2r_p\cos\phi_p}{1 - r_p^2}$, each prime $p \equiv 2,3 \pmod{5}$ contributes at least $\frac{2(1 - r_p^2)}{(1 + r_p^2)^2}r_p(1 - \cos\phi_p) \ge \frac{6}{25}p^{-\sigma^*}(1 - \cos(2\gamma\log p)) \ge 0$ to $\theta_\kappa - \Phi(\sigma^* + \ii\gamma)$. Introduce $k(u) := \ee^{-u/2} - \ee^{-u} \ge 0$ ($u \ge 0$), whose Mellin transform $\widehat{k}(w) = (2^w - 1)\Gamma(w)$ is holomorphic on $\Reop w > -1$, and set
+\begin{equation*}
+  f_5(s) := \frac{1}{2}\left[-\frac{\zeta'}{\zeta}(s) + \frac{L'}{L}(s, \chi_{5,\mathrm{quad}}) - \frac{\log 5}{5^s - 1}\right]
+  = \sum_{p \equiv 2,3 \pmod{5}}\sum_{\substack{m \ge 1 \\ m\text{ odd}}} (\log p)\,p^{-ms}.
+\end{equation*}
+Using $1 - \cos(2m\gamma\log p) \le m^2(1 - \cos(2\gamma\log p))$, $(\log p)k(p/X) \le \log(2X)$ for $X \ge \ee^2$, and the prime-power tail $\sum_{\ell=1}^\infty (\log p)(2\ell+1)^2 p^{-2\ell\sigma^*} < 4$, the smoothed sum
+\begin{equation*}
+  S_\Lambda(X,\gamma) := \sum_{p \equiv 2,3 \pmod{5}}\sum_{\substack{m \ge 1 \\ m\text{ odd}}} (\log p)\,p^{-m\sigma^*}\bigl(1 - \cos(2m\gamma\log p)\bigr)k(p^m/X)
+\end{equation*}
+satisfies $S_\Lambda(X,\gamma) \le \frac{50}{3}(\log X)(\theta_\kappa - \Phi(\sigma^* + \ii\gamma))$. Expressing $S_\Lambda(X,\gamma) = \Reop[I_5(X,0) - I_5(X,2\gamma)]$ via
+\begin{equation*}
+  I_5(X,t) := \frac{1}{2\pi\ii}\int_{1-\ii\infty}^{1+\ii\infty} f_5(\sigma^* + \ii t + w)\,\widehat{k}(w)X^w\,\dd w
+\end{equation*}
+and shifting to $\Reop w = \frac{1}{2} - \sigma^* + \frac{1}{100} > -1$ under RH and GRH via $|f_5(\frac{51}{100} + \ii\tau)| \ll \log(|\tau| + 2)$ \cite[Thm.~14.5]{titchmarsh1986}, \cite[Thm.~13.13]{montgomeryvaughan2007} picks up the residue $\frac{1}{2}c_* X^{-(\sigma^*-1)}$ at $w = 1 - \sigma^*$ ($c_* := (2^{1-\sigma^*} - 1)\Gamma(1 - \sigma^*) > \frac{7}{10}$) plus $\mathcal{O}(\ee^{-\pi\gamma}X^{-(\sigma^*-1)})$ at $w = 1 - \sigma^* - 2\ii\gamma$, yielding $S_\Lambda(X,\gamma) = \frac{c_*}{2}X^{-(\sigma^*-1)} + \mathcal{O}(X^{-1/2 - (\sigma^*-1) + 1/100}\log\gamma)$. Setting $X := (\log\gamma)^{21/10}$ (since $\frac{21}{10}(\sigma^* - 1) < \frac{26}{100}$) gives $\theta_\kappa - \Phi(\sigma^* + \ii\gamma) \gg (\log\gamma)^{-3/10}$. Because $\sup_{\sigma \ge 1.08}|\partial_\sigma\mathcal{L}(\sigma + \ii\gamma)| < \infty$ and $(\log\gamma)^{-1/3} = o((\log\gamma)^{-3/10})$, we obtain $\theta_\kappa - \Phi(\sigma + \ii\gamma) \gg (\log\gamma)^{-3/10}$ on $|\sigma - \sigma^*| \le (\log\gamma)^{-1/3}$, while on $\sigma \in [\sigma^* + (\log\gamma)^{-1/3}, 3]$ monotonicity gives $\theta_\kappa - \Phi(\sigma + \ii\gamma) \ge 2(\arctan(2^{-\sigma^*}) - \arctan(2^{-\sigma})) \gg (\log\gamma)^{-1/3}$. Thus $|\mathcal{D}_{\mathrm{DH}}(\sigma + \ii\gamma)| \gg (\log\gamma)^{-1/3}$ for all $\sigma \ge \sigma^* - (\log\gamma)^{-1/3}$, $\gamma \ge \gamma_0$.
+
+To deduce $N_{\mathrm{off}}(F_*; \infty) < \infty$, set $\eta := \frac{1}{64}$ and apply Lemma~\ref{lem:borel-cap} to $G_{\mathrm{sinc},h_*}$ ($\tau_0 = 2h_* = 2\sigma^* - 1$, $h_G(w) = \frac{\sinh(h_* w)}{h_* w}$). Since $\frac{h_G(w-u)}{h_G(w)} = \frac{w}{w-u}\ee^{-h_* u}\frac{1-\ee^{-2h_*(w-u)}}{1-\ee^{-2h_* w}}$, splitting $1 \le n \le N_\gamma$ in \eqref{eq:dobner-generalized} at $\lfloor\exp((\log\gamma)^{1/2})\rfloor$ strengthens \eqref{eq:cap-asymptotic} on $\delta \in [-2\eta, h_*]$ ($\sigma_z + h_* = \sigma^* + \delta > 1.08 > 1 + 3\eta$) to $|r_+(z)| \ll (\log\gamma)^{-1}$. Combining $|r_+(z)| \ll (\log\gamma)^{-1}$ with $|\mathcal{D}_{\mathrm{DH}}(s(z)+h_*)| \gg (\log\gamma)^{-1/3}$ gives $I_+(z) = \mathcal{M}_*(z)(1 + \mathcal{O}((\log\gamma)^{-2/3}))$ uniformly on $\delta \in [-(\log\gamma)^{-1/3}, h_*]$, where $\mathcal{M}_*(z) := \Gamma_{\mathrm{DH}}(s(z))h_G(\Omega(z))\mathcal{D}_{\mathrm{DH}}(s(z)+h_*) \ne 0$. For $\delta \in [\eta, h_*]$, Lemma~\ref{lem:dirichlet-analytic}(i) gives $|F_*(z) - I_+(z)| \ll \gamma^{-5\eta/32}(\log\gamma)^{1/3}|\mathcal{M}_*(z)|$; for $\delta \in [\frac{1}{2}(\log\gamma)^{-1/3}, \eta]$, $|I_-(z)| = |I_+(\bar{z})| \ll \gamma^{-\delta}(\log\gamma)^{1/3}|\mathcal{M}_*(z)| \le \exp(-\frac{1}{2}(\log\gamma)^{2/3} + \frac{1}{3}\log\log\gamma)|\mathcal{M}_*(z)| \to 0$. Finally, on $|\delta| \le \frac{1}{2}(\log\gamma)^{-1/3}$, both $z$ and $\bar{z}$ satisfy the cap asymptotic, so $F_*(z) = \mathcal{M}_*(z) + \overline{\mathcal{M}_*(\bar{z})} + \mathcal{O}((\log\gamma)^{-2/3})\max(|\mathcal{M}_*(z)|, |\overline{\mathcal{M}_*(\bar{z})}|)$, while $|\mathcal{D}_{\mathrm{DH}}'|\le -\zeta'(1.08)$ gives $|\frac{\dd}{\dd z}\log\mathcal{D}_{\mathrm{DH}}(s(z)+h_*)| \ll (\log\gamma)^{1/3}$ and replaces \eqref{eq:log-deriv-M} by $\frac{\dd}{\dd z}\log\mathcal{M}_*(z) = -\frac{\pi}{8} + \frac{\ii}{4}\log\frac{5\gamma}{2\pi} + \mathcal{O}((\log\gamma)^{1/3})$. Because $(\log\gamma)^{1/3} = o(\log\gamma)$ and $\delta_k(\log x_k)^{1/3} \ll (\log x_k)^{-2/3} \to 0$ on the vertical edges of the Rouch\'e rectangles $\mathcal{R}_k = [x_k, x_{k+1}] \times [-2\ii\delta_k, 2\ii\delta_k]$ ($\delta_k = \frac{4}{\log(x_k/2)}$), items~(a)--(b) of Case~2 in Theorem~\ref{thm:three-regimes} carry over verbatim, proving $N_{\mathrm{off}}(F_*; \infty) < \infty$.
+\end{proof}
+
+\begin{remark}[Unconditional Vinogradov--Korobov and Baker--W\"ustholz barriers]
+\label{rem:vk-baker}
+Replacing RH and GRH in Proposition~\ref{prop:critical-sinc} by the unconditional Vinogradov--Korobov zero-free region $1 - c(\log(|\tau|+3))^{-2/3}(\log\log(|\tau|+3))^{-1/3}$ \cite{korobov1958} requires Mellin scale $\log X \asymp (\log\gamma)^{2/3}(\log\log\gamma)^{4/3}$ to beat the vertical-line contour integral and yields only $\theta_\kappa - \Phi(\sigma^* + \ii\gamma) \gg \exp(-c'(\log\gamma)^{2/3}(\log\log\gamma)^{4/3})$, which decays faster than the Borel cap error $\mathcal{O}((\log\gamma)^{-1})$ in Lemma~\ref{lem:borel-cap}. Likewise, bounding the simultaneous Diophantine defect $\sum_{p \le P} p^{-\sigma^*}(1 - \cos(2\gamma\log p))$ directly via linear forms in logarithms \cite{bakerwustholz1993} requires truncating the prime tail $\sum_{p > P} p^{-\sigma^*} \asymp \frac{P^{-(\sigma^*-1)}}{(\sigma^*-1)\log P}$ below $(\log\gamma)^{-1}$, forcing $\pi(P) \asymp (\log\gamma)^{\frac{1}{\sigma^*-1}}(\log\log\gamma)^{-\frac{\sigma^*}{\sigma^*-1}} = (\log\gamma)^{8.308\ldots - o(1)}$ independent logarithms whose $n^n$ dependence produces an even weaker doubly exponential bound.
+\end{remark}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.98\textwidth]{../figures/fig2_polya_schur_sinc_vs_cosh.pdf}
-  \caption{(a) Stieltjes logarithmic-derivative profiles $S_G(u)$ relative to the threshold $2\sigma^* - 1$. (b) Transverse off-line ordinate $|\Imop z(h)|/2$ near $\rho_{2442}$ under $G_{\mathrm{cosh},h}$ versus $G_{\mathrm{sinc},h}$, showing the 400-ball singularity-free continuation across $h \in [0, 311/500]$ past $\sigma^* - \frac{1}{2}$.}
+  \caption{(a) Stieltjes logarithmic-derivative profiles $S_G(u)$ relative to $2\sigma^* - 1$. (b) Transverse off-line ordinate $|\Imop z(h)|/2$ comparing $G_{\mathrm{cosh},h}$ on $\rho_{2442}$ with $G_{\mathrm{sinc},h}$ on $\rho_{2442}$ ($h_{\mathrm{col}} \approx 0.62453$) and on $\rho_{44838}$ (360-ball singularity-free continuation across $h \in [0, 5/8]$, $h_{\mathrm{col}} \approx 0.62512$).}
   \label{fig:stieltjes-sinc}
 \end{figure}
 
@@ -522,6 +558,11 @@ The de~Bruijn--Newman constant of $\Xi_{\mathrm{DH}}(z)$ satisfies
 Set $\Delta_0 := 2(\sigma^* - \frac{1}{2})$ and $t_1 := \frac{1}{2} < \frac{1}{2}\Delta_0^2 = 2(\sigma^* - \frac{1}{2})^2$. By Proposition~\ref{prop:asymptotic-simplicity}, $H_{t_1}^{\mathrm{DH}}(z)$ has only real zeros in $|\Reop z| \ge 2\gamma_0(t_1)$ and hence at most finitely many non-real zeros overall. If $H_{t_1}^{\mathrm{DH}}$ has no non-real zeros, then $\Lambda_{\mathrm{DH}} \le t_1 < 2(\sigma^* - \frac{1}{2})^2$. Otherwise, $Y_1 := \max\{|\Imop w| : H_{t_1}^{\mathrm{DH}}(w) = 0\} > 0$ is attained at some $w_* = x_* + \ii y_*$ with $|x_*| < 2\gamma_0(t_1)$. By Lemma~\ref{lem:bohr-enclosure}, every zero $z_\rho$ of $\Xi_{\mathrm{DH}}(z)$ satisfies $|\Imop z_\rho| < \Delta_0$ strictly. Setting $R := 2\gamma_0(t_1) + \Delta_0 + 1$, the finitely many zeros of $\Xi_{\mathrm{DH}}$ in $|\Reop z_\rho| \le R$ satisfy $\Delta_R := \max_{|\Reop z_\rho| \le R}|\Imop z_\rho| < \Delta_0$, while zeros with $|\Reop z_\rho| > R$ satisfy $|\Reop z_\rho - x_*| > \Delta_0 + 1 > |\Imop z_\rho|$, so $(\Imop z_\rho)^2 - (\Reop z_\rho - x_*)^2 \le \Delta_R^2 < \Delta_0^2$ globally. Lemma~\ref{lem:debruijn-strip}(ii) at $\Reop z = x_*$ yields $Y_1^2 \le \max(0, \Delta_R^2 - 2t_1)$, and Lemma~\ref{lem:debruijn-strip}(i) applied to $H_{t_1 + Y_1^2/2}^{\mathrm{DH}} = \ee^{-(Y_1^2/2)\partial_z^2}H_{t_1}^{\mathrm{DH}}$ gives $\Lambda_{\mathrm{DH}} \le t_1 + \frac{1}{2}Y_1^2 \le \max(t_1, \frac{1}{2}\Delta_R^2) < \frac{1}{2}\Delta_0^2 = 2(\sigma^* - \frac{1}{2})^2$.
 \end{proof}
 
+\begin{remark}[Modified Dirichlet-polynomial $\ell^1$ barrier versus Euler-product $L$-functions]
+\label{rem:dobner-barrier}
+For primitive real-valued Dirichlet characters of conductor $3 \le m \le 400$ (whose $L$-functions possess an Euler product and have all non-trivial zeros inside $0 < \Reop s < 1$), Freire et al.\ \cite{freire2026} recently established $\Lambda_L \le \frac{953}{3200} = 0.2978125$ by combining Polymath-type effective heat-flow approximations \cite{polymath2019} with numerical GRH verifications and interval computations. For $\mathcal{D}_{\mathrm{DH}}(s)$, the absence of an Euler product prevents factoring out $1$-line zeros; in Dobner's Riemann--Siegel-truncated modified Dirichlet polynomial $\sum_{n=1}^{N(\gamma)} a_{\mathrm{DH}}(n)\,\ee^{\frac{t}{4}\log^2 n}\,n^{-\frac{1}{2} - \frac{t}{4}\log\frac{5\gamma}{2\pi} - \ii\gamma}$ ($N(\gamma) := \lfloor\sqrt{5\gamma/(2\pi)}\rfloor$; cf.\ \eqref{eq:dobner-generalized} and \cite[Lem.~2.3]{dobner2021}), the non-multiplicative Gaussian weight $\ee^{\frac{t}{4}\log^2 n}$ cancels half of the effective abscissa damping at $n \sim N(\gamma)$ and inflates the $\ell^1$-dominance threshold $\sum_{n=2}^{N(\gamma)}|a_{\mathrm{DH}}(n)|\,\ee^{\frac{t}{4}\log^2 n}\,n^{-\frac{1}{2} - \frac{t}{4}\log\frac{5\gamma}{2\pi}} < 1$ from $\gamma_{\ell^1}(0.50) \approx 1.52 \times 10^4$ ($N = 110$) to $\gamma_{\ell^1}(0.25) \approx 4.18 \times 10^8$ ($N = 18{,}235$). Lowering Corollary~\ref{cor:strict-upper-bound} toward $\frac{1}{4}$ therefore requires a finite-box argument-principle cover up to heights of order $10^8$ unless oscillatory cancellation in the modified Dirichlet polynomial is exploited beyond $\ell^1$.
+\end{remark}
+
 \section{Certified Lower Bound on $\Lambda_{\mathrm{DH}}$ via Ball Arithmetic}
 \label{sec:lower-bound}
 
@@ -547,28 +588,28 @@ where $r_N := \ee^{-\pi N/5}$, $E_1(U,N,k,|y|) := 8 U^{k+1}\ee^{t U^2 + (3+|y|)U
 \end{equation}
 \end{lemma}
 
-The proof of Lemma~\ref{lem:theta-truncation} is given in Appendix~\ref{app:truncation-bounds}. At $z_0 \approx 480.69 - 0.00384\,\ii$ ($\gamma \approx 240.35$), $|\partial_z H_t^{\mathrm{DH}}(z_0)| \approx 3 \times 10^{-84}$ due to $\ee^{-\pi\gamma/4} \approx 10^{-82}$ oscillatory decay; expanding $\partial_z H_t^{\mathrm{DH}}(z)$ on $B(z_0, r) := \{z \in \C : |\Reop(z - z_0)| \le r,\; |\Imop(z - z_0)| \le r\}$ to third order via $\partial_z H_t^{\mathrm{DH}}(z_0) + (z - z_0)\partial_z^2 H_t^{\mathrm{DH}}(z_0) + \frac{1}{2}(z - z_0)^2\partial_z^3 H_t^{\mathrm{DH}}(z_0)$ with Taylor remainder bounded by $\frac{1}{6}|z - z_0|^3 M_4(B) \le \frac{\sqrt{2}}{3}r^3 M_4(B)$ allows rigorous certification at sober 448-bit working precision with box radius $r = 10^{-32}$.
+The proof of Lemma~\ref{lem:theta-truncation} is given in Appendix~\ref{app:truncation-bounds}. At $z_0 \approx 480.69 - 9.54 \times 10^{-7}\,\ii$ ($\gamma \approx 240.35$), $|\partial_z H_t^{\mathrm{DH}}(z_0)| \approx 7 \times 10^{-88}$ due to $\ee^{-\pi\gamma/4} \approx 10^{-82}$ oscillatory decay and proximity to coalescence; expanding $\partial_z H_t^{\mathrm{DH}}(z)$ on $B(z_0, r) := \{z \in \C : |\Reop(z - z_0)| \le r,\; |\Imop(z - z_0)| \le r\}$ to third order via $\partial_z H_t^{\mathrm{DH}}(z_0) + (z - z_0)\partial_z^2 H_t^{\mathrm{DH}}(z_0) + \frac{1}{2}(z - z_0)^2\partial_z^3 H_t^{\mathrm{DH}}(z_0)$ with Taylor remainder bounded by $\frac{1}{6}|z - z_0|^3 M_4(B) \le \frac{\sqrt{2}}{3}r^3 M_4(B)$ allows rigorous certification at sober 512-bit working precision with box radius $r = 10^{-32}$.
 
 \begin{theorem}[Interval-certified lower bound on $\Lambda_{\mathrm{DH}}$]
 \label{thm:certified-lower}
-At exact rational $t = \frac{1153}{5000} = 0.2306$, the entire function $H_{1153/5000}^{\mathrm{DH}}(z)$ possesses a certified simple non-real zero inside $B(z_{240}, 10^{-32})$ centered at
+At exact rational $t_* := \frac{28825920237}{125000000000} = 0.230607361896$, the entire function $H_{t_*}^{\mathrm{DH}}(z)$ possesses a certified simple non-real zero inside $B(z_{240}, 10^{-32})$ centered at
 \begin{equation}
   \begin{aligned}
-    z_{240} &= 480.690235013620019064551671086167379 \\
-    &\quad - 0.003837169565586910716957555909571243\,\ii,
+    z_{240} &= 480.6902310425074727072038413480701557071 \\
+    &\quad - 9.535301365553738949062115339251329328331 \times 10^{-7}\,\ii,
   \end{aligned}
   \label{eq:z240-center}
 \end{equation}
-originating from the off-line zero $\rho_{240} = 0.8695305796\ldots + 240.4046723514\ldots\,\ii$ of $\mathcal{D}_{\mathrm{DH}}(s)$. Consequently, $\Lambda_{\mathrm{DH}} > \frac{1153}{5000} = 0.2306$.
+originating from the off-line zero $\rho_{240} = 0.8695305796\ldots + 240.4046723514\ldots\,\ii$ of $\mathcal{D}_{\mathrm{DH}}(s)$. Consequently, $\Lambda_{\mathrm{DH}} > \frac{28825920237}{125000000000} = 0.230607361896$.
 \end{theorem}
 
 \begin{proof}
-Evaluating $\partial_z^k H_{1153/5000}^{\mathrm{DH}}(z_{240})$ ($k \in \{0, 1, 2, 3\}$) with $U = \frac{57}{25} = 2.28$ and $N = 32$ via 448-bit \texttt{FLINT/Arb} Gauss--Legendre ball quadrature (\texttt{acb.integral} \cite{johansson2017}) plus the analytical remainder balls of Lemma~\ref{lem:theta-truncation}, and enclosing $\partial_z H_{1153/5000}^{\mathrm{DH}}(B)$ on $B := B(z_{240}, 10^{-32})$ via \eqref{eq:m4-bound}, our verification script confirms that $0 \notin \partial_z H_{1153/5000}^{\mathrm{DH}}(B)$, $N(B) := z_{240} - H_{1153/5000}^{\mathrm{DH}}(z_{240})/\partial_z H_{1153/5000}^{\mathrm{DH}}(B) \subset \operatorname{int}(B)$, and $\sup_{w \in N(B)}\Imop w < -3.83 \times 10^{-3} < 0$ (Table~\ref{tab:certificates}). By Brouwer's fixed-point theorem and the Argument Principle, $H_{1153/5000}^{\mathrm{DH}}$ has a unique simple zero in $B$, which is strictly non-real. If $H_{t_0}^{\mathrm{DH}}$ had only real zeros for some $t_0 \le \frac{1153}{5000}$, Lemma~\ref{lem:debruijn-strip}(i) applied to $H_{1153/5000}^{\mathrm{DH}} = \ee^{-(1153/5000 - t_0)\partial_z^2}H_{t_0}^{\mathrm{DH}}$ would force all zeros at $t = \frac{1153}{5000}$ to be real, a contradiction; openness of simple non-real zeros in $t$ yields $\Lambda_{\mathrm{DH}} > \frac{1153}{5000}$.
+Evaluating $\partial_z^k H_{t_*}^{\mathrm{DH}}(z_{240})$ ($k \in \{0, 1, 2, 3\}$) with $U = \frac{23}{10} = 2.30$ and $N = 34$ via 512-bit \texttt{FLINT/Arb} Gauss--Legendre ball quadrature (\texttt{acb.integral} \cite{johansson2017}) plus the analytical remainder balls of Lemma~\ref{lem:theta-truncation}, and enclosing $\partial_z H_{t_*}^{\mathrm{DH}}(B)$ on $B := B(z_{240}, 10^{-32})$ via \eqref{eq:m4-bound}, our verification script confirms that $0 \notin \partial_z H_{t_*}^{\mathrm{DH}}(B)$, $N(B) := z_{240} - H_{t_*}^{\mathrm{DH}}(z_{240})/\partial_z H_{t_*}^{\mathrm{DH}}(B) \subset \operatorname{int}(B)$, and $\sup_{w \in N(B)}\Imop w < -9.53 \times 10^{-7} < 0$ (Table~\ref{tab:certificates}). By Brouwer's fixed-point theorem and the Argument Principle, $H_{t_*}^{\mathrm{DH}}$ has a unique simple zero in $B$, which is strictly non-real. If $H_{t_0}^{\mathrm{DH}}$ had only real zeros for some $t_0 \le t_*$, Lemma~\ref{lem:debruijn-strip}(i) applied to $H_{t_*}^{\mathrm{DH}} = \ee^{-(t_* - t_0)\partial_z^2}H_{t_0}^{\mathrm{DH}}$ would force all zeros at $t = t_*$ to be real, a contradiction; openness of simple non-real zeros in $t$ yields $\Lambda_{\mathrm{DH}} > t_*$.
 \end{proof}
 
 \begin{remark}
 \label{rem:platt-comparison}
-Combining Theorem~\ref{thm:certified-lower} with Platt and Trudgian's unconditional upper bound $\Lambda_\zeta \le \frac{1}{5} = 0.2$ \cite{platt2021} separates the two constants strictly under the common normalization of Section~\ref{subsec:notation}: $\Lambda_\zeta \le \frac{1}{5} < \frac{1153}{5000} < \Lambda_{\mathrm{DH}}$.
+Combining Theorem~\ref{thm:certified-lower} with Platt and Trudgian's unconditional upper bound $\Lambda_\zeta \le \frac{1}{5} = 0.2$ \cite{platt2021} separates the two constants strictly under the common normalization of Section~\ref{subsec:notation}: $\Lambda_\zeta \le \frac{1}{5} < \frac{28825920237}{125000000000} < \Lambda_{\mathrm{DH}}$.
 \end{remark}
 
 \begin{table}[t]
@@ -577,15 +618,17 @@ Combining Theorem~\ref{thm:certified-lower} with Platt and Trudgian's unconditio
   \label{tab:certificates}
   \footnotesize
   \renewcommand{\arraystretch}{1.18}
-  \setlength{\tabcolsep}{4.0pt}
+  \setlength{\tabcolsep}{3.8pt}
   \begin{tabular}{@{}lllc@{}}
     \toprule
     Target / Witness & Param. & Certified Midpoint / Cover (16 digits shown) & Radius $r$ \\
     \midrule
     Supremum $\sigma^*$ (320-bit) & IVT & $1.1203624981833251$ & $10^{-30}$ \\
-    $G_{\mathrm{sinc}}$ cover (320-bit) & $[0, \frac{311}{500}]$ & $400$ overlapping balls $H_k$, $\Imop N(B_k, H_k) < 0$ & $\le 6\times 10^{-3}$ \\
-    $G_{\mathrm{sinc}}$ ($\rho_{2442}$, 320-bit) & $h = \frac{311}{500}$ & $4884.886654191757 - 0.0560046288608581\,\ii$ & $10^{-30}$ \\
-    $H_t^{\mathrm{DH}}$ ($\rho_{240}$, 448-bit) & $t = \frac{1153}{5000}$ & $480.6902350136200 - 0.0038371695655869\,\ii$ & $10^{-32}$ \\
+    $G_{\mathrm{sinc}}$ cover (384-bit) & $[0, \frac{5}{8}]$ & $360$ overlapping balls $H_k$ ($\rho_{44838}$), $\Imop N(B_k, H_k) < 0$ & $\le 8\times 10^{-3}$ \\
+    $G_{\mathrm{sinc}}$ ($\rho_{44838}$, 384-bit) & $h = \frac{5}{8}$ & $89676.89867887534 - 0.0105638607534751\,\ii$ & $10^{-30}$ \\
+    $G_{\mathrm{sinc}}$ ($\rho_{44838}$, 384-bit) & $h = \frac{625121}{10^6}$ & $89676.89866265337 - 0.0005506986593098\,\ii$ & $10^{-30}$ \\
+    $G_{\mathrm{sinc}}$ ($\rho_{2442}, \rho_{44838}$) & $h_* = \sigma^* - \frac{1}{2}$ & two disjoint off-real quartets ($N_{\mathrm{off}} \ge 8$) & $10^{-27}$ \\
+    $H_t^{\mathrm{DH}}$ ($\rho_{240}$, 512-bit) & $t = \frac{28825920237}{125000000000}$ & $480.6902310425075 - 9.535301365553739\times 10^{-7}\,\ii$ & $10^{-32}$ \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -593,7 +636,7 @@ Combining Theorem~\ref{thm:certified-lower} with Platt and Trudgian's unconditio
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.98\textwidth]{../figures/fig1_heat_flow_separation_witnesses.pdf}
-  \caption{(a) Transverse off-line distance $\delta(t) = |\Imop z(t)|/2$ under backward heat flow for $\rho_1$, $\rho_{531}$, and $\rho_{240}$, with the certified Interval--Newton witness at $t = 1153/5000 = 0.2306$. (b) Exploratory numerical collision survey up to $\gamma = 72{,}500$ compared with the leading-order heuristic $4(\sigma^* - \frac{1}{2})/\log(\frac{5\gamma}{2\pi})$.}
+  \caption{(a) Transverse off-line distance $\delta(t) = |\Imop z(t)|/2$ under backward heat flow for $\rho_1$, $\rho_{531}$, and $\rho_{240}$, with the certified 512-bit Interval--Newton witness at $t = 28825920237/125000000000 = 0.230607361896$. (b) Winding scan ($[0, 10^4]$) and high-resonance collision survey compared with the leading-order heuristic $4(\sigma^* - \frac{1}{2})/\log(\frac{5\gamma}{2\pi})$.}
   \label{fig:heat-witnesses}
 \end{figure}
 
@@ -603,13 +646,13 @@ Combining Theorem~\ref{thm:certified-lower} with Platt and Trudgian's unconditio
 We strictly distinguish the ball-certified theorems in Table~\ref{tab:certificates} from exploratory numerical root tracking:
 \begin{enumerate}[label=\textup{(\arabic*)},leftmargin=2.0em]
   \item \emph{Oscillation aliasing in non-interval quadrature:} Near the first off-line zero $\rho_1 \approx 0.808517 + 85.699348\,\ii$ ($z \approx 171.40 - 0.6170\,\ii$), $\cos(zu)$ undergoes roughly $60$ oscillations on $[0, 2.25]$; uncertified adaptive quadrature (\texttt{mpmath.quad} at default subdivision) aliases across sign changes and reports a spurious coalescence near $t \approx 0.1419$, whereas high-precision scalar Newton refinement places coalescence at $t_{\mathrm{col}}(\rho_1) \approx 0.17650538$.
-  \item \emph{High-height collision survey and leading-order heuristic:} High-precision scalar Newton refinement on $(H_t^{\mathrm{DH}}, \partial_z H_t^{\mathrm{DH}}) = (0,0)$ locates the coalescence of $\rho_{240}$ at $t_{\mathrm{col}}(\rho_{240}) \approx 0.2306073618964546$ ($x_{\mathrm{col}} \approx 480.6902310425$) and that of $\rho_{531}$ at $t_{\mathrm{col}}(\rho_{531}) \approx 0.20127583$. An exploratory scan of off-line zeros of $\mathcal{D}_{\mathrm{DH}}(s)$ up to $\gamma = 72{,}500$ (Figure~\ref{fig:heat-witnesses}(b)) detects no collision exceeding $t_{\mathrm{col}}(\rho_{240})$: although deeper real parts occur at higher ordinates (such as $\rho_{2442}$ with $\Reop\rho \approx 0.89775$ and $t_{\mathrm{col}} \approx 0.19973$, or $\gamma \approx 49{,}688.34$ with $\Reop\rho \approx 0.93187$ and $t_{\mathrm{col}} \approx 0.1609$), matching the Gaussian saddle $u_0 \approx \frac{t}{4}\log\frac{5\gamma}{2\pi}$ of Section~\ref{sec:upper-bound} to $\sigma^* - \frac{1}{2}$ suggests the unproved leading-order heuristic $t_{\mathrm{col}}(\rho) \lesssim 4(\sigma^* - \frac{1}{2})/\log(\frac{5\gamma}{2\pi})$ (note that Proposition~\ref{prop:asymptotic-simplicity} itself yields only the weaker rigorous ceiling $4(\sigma^* - \frac{1}{2} + 5 + 6\sqrt{t} + 2t)/\log(\frac{5\gamma}{2\pi})$). Whether $\Lambda_{\mathrm{DH}}$ coincides with $t_{\mathrm{col}}(\rho_{240})$ remains an open finite-box verification problem.
+  \item \emph{Exhaustive $[0, 10{,}000]$ winding scan and Diophantine resonance survey up to $10^8$:} High-precision scalar Newton refinement on $(H_t^{\mathrm{DH}}, \partial_z H_t^{\mathrm{DH}}) = (0,0)$ locates the coalescence of $\rho_{240}$ at $t_{\mathrm{col}}(\rho_{240}) \approx 0.2306073618964546$ ($x_{\mathrm{col}} \approx 480.6902310425$, matching the first $12$ decimal digits of Theorem~\ref{thm:certified-lower}) and that of $\rho_{531}$ at $t_{\mathrm{col}}(\rho_{531}) \approx 0.20127583$. An argument-principle winding scan over $\gamma \in [0, 10{,}000]$ ($572$ off-line zeros in $\Reop s > \frac{1}{2}$) combined with a Kronecker phase-alignment search up to $\gamma = 10^8$ (Figure~\ref{fig:heat-witnesses}(b)) detects no collision exceeding $t_{\mathrm{col}}(\rho_{240})$: although deeper real parts occur at higher ordinates (such as $\rho_{44838}$ with $\Reop\rho \approx 0.91614$ and $t_{\mathrm{col}} \approx 0.1592$, or $\gamma \approx 247{,}535.1$ with $\Reop\rho \approx 0.94612$ and $t_{\mathrm{col}} \approx 0.1418$), matching the Gaussian saddle $u_0 \approx \frac{t}{4}\log\frac{5\gamma}{2\pi}$ to $\sigma^* - \frac{1}{2}$ suggests the unproved leading-order heuristic $t_{\mathrm{col}}(\rho) \lesssim 4(\sigma^* - \frac{1}{2})/\log(\frac{5\gamma}{2\pi})$, which itself falls below $t_{\mathrm{col}}(\rho_{240})$ for all $\gamma > 59{,}220$ (whereas Proposition~\ref{prop:asymptotic-simplicity} gives only the much weaker rigorous ceiling $4(\sigma^* - \frac{1}{2} + 5 + 6\sqrt{t} + 2t)/\log(\frac{5\gamma}{2\pi})$). Whether $\Lambda_{\mathrm{DH}}$ coincides with $t_{\mathrm{col}}(\rho_{240})$ remains an open finite-box verification problem.
 \end{enumerate}
 
 \section{Scope, Limitations, and Open Questions}
 \label{sec:conclusion}
 
-Theorem~\ref{thm:main} shows that for self-dual Dirichlet combinations without an Euler product, real entire P\'olya--Schur multipliers exhibit both an infinite-height shift threshold at $S_G(u) \to 2\sigma^* - 1$ (sensitive to root-gap regularity even when $\rho(G) \in (1/2, 1)$) and a strict gap between infinite-height real-rootedness and global real-rootedness for strip-averaging kernels such as $G_{\mathrm{sinc},h}$. Alongside the three open Stieltjes boundary regimes recorded in Remark~\ref{rem:open-regimes}, narrowing the certified intervals $\frac{311}{500} < h_{\mathrm{global}}^*(G_{\mathrm{sinc}}; \Xi_{\mathrm{DH}}) \le 31$ and $\frac{1153}{5000} < \Lambda_{\mathrm{DH}} < 2(\sigma^* - \frac{1}{2})^2$ reduces to finite two-dimensional argument-principle box covers once the height cutoffs in Theorem~\ref{thm:sinc-separation}(ii) and Proposition~\ref{prop:asymptotic-simplicity} are sharpened via stationary-phase Dirichlet-polynomial approximations.
+Theorem~\ref{thm:main} shows that for self-dual Dirichlet combinations without an Euler product, real entire P\'olya--Schur multipliers exhibit both an infinite-height shift threshold at $S_G(u) \to 2\sigma^* - 1$ (sensitive to root-gap regularity even when $\rho(G) \in (1/2, 1)$) and a strict gap between infinite-height real-rootedness and global real-rootedness for strip-averaging kernels such as $G_{\mathrm{sinc},h}$, bracketed within a factor of two by $\sigma^* - \frac{1}{2} < \frac{5}{8} < h_{\mathrm{global}}^*(G_{\mathrm{sinc}}; \Xi_{\mathrm{DH}}) \le 2\sigma^* - 1$. Alongside removing RH and GRH in Proposition~\ref{prop:critical-sinc} and resolving the remaining oscillatory and clustered boundary regimes of Remark~\ref{rem:open-regimes}, closing the finite-height gaps $\frac{5}{8} < h_{\mathrm{global}}^*(G_{\mathrm{sinc}}; \Xi_{\mathrm{DH}}) \le 2\sigma^* - 1$ and $\frac{28825920237}{125000000000} < \Lambda_{\mathrm{DH}} < 2(\sigma^* - \frac{1}{2})^2$ reduces to finite two-dimensional argument-principle covers once the height cutoffs are sharpened beyond the $\ell^1$ barrier of Remark~\ref{rem:dobner-barrier}.
 
 \appendix
 
@@ -638,7 +681,7 @@ Write $z_0 := \frac{3}{4} + \frac{\ii\tilde{\gamma}}{2}$, so $|z_0| > \frac{\til
 \label{app:truncation-bounds}
 
 \begin{proof}[Proof of Lemma~\ref{lem:theta-truncation} and Cauchy bound in Theorem~\ref{thm:sinc-separation}]
-For $n \ge N \ge 25$ and $u \in [0, U]$, $\ee^{4u} \ge 1$ and $n^2 \ge Nn$ give $\ee^{-\pi n^2\ee^{4u}/5} \le r_N^n$ with $r_N = \ee^{-\pi N/5} < 10^{-6}$. Since $|a_{\mathrm{DH}}(n)| \le 1$, summing $\sum_{n=N}^{\infty} n\,r_N^n = \frac{r_N^N(N - (N-1)r_N)}{(1 - r_N)^2}$ and using $|\partial_z^k\cos(zu)| \le U^k\ee^{|y|U}$ over $[0, U]$ gives $E_1(U,N,k,|y|)$. For $u \ge U \ge 2$ and $k \in \{0,1,2,3,4\}$, $\sum_{n=1}^{\infty} n\,\ee^{-\pi n^2\ee^{4u}/5} \le 2\ee^{-\pi\ee^{4u}/5}$ and $t u^2 + (3 + |y|)u + k\log u \le \frac{u^2}{4} + 8u \le \frac{\pi}{10}\ee^{4u} - 4u$ ($u \ge 2$), so the tail on $[U,\infty)$ is bounded by $16\ee^{-4u - \frac{\pi}{10}\ee^{4u}} \le \frac{40}{\pi}\ee^{-4U}\cdot \frac{2\pi}{5}\ee^{4u}\ee^{-\frac{\pi}{10}\ee^{4u}}$, integrating to $E_2(U)$. Bounding $\sum_{n=1}^{N-1} n|a_{\mathrm{DH}}(n)|\,\ee^{-\pi n^2\ee^{4u}/5} \le \frac{N(N-1)}{2}$ and $|u^4\cos(zu)| \le U^4\cosh(U y_{\max})$ on $[0,U]$ yields \eqref{eq:m4-bound}. Finally, in Theorem~\ref{thm:sinc-separation}(i), $\tilde{\xi}_{\mathrm{DH}}(s_{\mathrm{ref}} + w)$ is entire in $w$; covering $|w| = \frac{9}{2}$ by $512$ overlapping interval arcs $W_j := \frac{9}{2}\ee^{\ii\Theta_j}$ ($\Theta_j = \frac{2\pi}{512}[(j + \frac{1}{2}) \pm 0.5001]$) in 320-bit \texttt{FLINT/Arb} certifies $M_{9/2} := \max_{0 \le j < 512}\sup_{w \in W_j}|\tilde{\xi}_{\mathrm{DH}}(s_{\mathrm{ref}} + w)| \le 1.123 \times 10^8$, whence Cauchy's integral formula on $|w - (s(z_k) - s_{\mathrm{ref}})| = R_k := \frac{9}{2} - |s(z_k) - s_{\mathrm{ref}}|$ (and on $R_k - \frac{\sqrt{2}}{2}r_k - \sup|H_k| > \frac{7}{2}$ for $\partial_z^4 g_{\mathrm{sinc}}$ on $B_k \times H_k$) bounds all Taylor remainders in \eqref{eq:gsinc-regular} and its derivatives.
+For $n \ge N \ge 25$ and $u \in [0, U]$, $\ee^{4u} \ge 1$ and $n^2 \ge Nn$ give $\ee^{-\pi n^2\ee^{4u}/5} \le r_N^n$ with $r_N = \ee^{-\pi N/5} < 10^{-6}$. Since $|a_{\mathrm{DH}}(n)| \le 1$, summing $\sum_{n=N}^{\infty} n\,r_N^n = \frac{r_N^N(N - (N-1)r_N)}{(1 - r_N)^2}$ and using $|\partial_z^k\cos(zu)| \le U^k\ee^{|y|U}$ over $[0, U]$ gives $E_1(U,N,k,|y|)$. For $u \ge U \ge 2$ and $k \in \{0,1,2,3,4\}$, $\sum_{n=1}^{\infty} n\,\ee^{-\pi n^2\ee^{4u}/5} \le 2\ee^{-\pi\ee^{4u}/5}$ and $t u^2 + (3 + |y|)u + k\log u \le \frac{u^2}{4} + 8u \le \frac{\pi}{10}\ee^{4u} - 4u$ ($u \ge 2$), so the tail on $[U,\infty)$ is bounded by $16\ee^{-4u - \frac{\pi}{10}\ee^{4u}} \le \frac{40}{\pi}\ee^{-4U}\cdot \frac{2\pi}{5}\ee^{4u}\ee^{-\frac{\pi}{10}\ee^{4u}}$, integrating to $E_2(U)$. Bounding $\sum_{n=1}^{N-1} n|a_{\mathrm{DH}}(n)|\,\ee^{-\pi n^2\ee^{4u}/5} \le \frac{N(N-1)}{2}$ and $|u^4\cos(zu)| \le U^4\cosh(U y_{\max})$ on $[0,U]$ yields \eqref{eq:m4-bound}. Finally, in Theorem~\ref{thm:sinc-separation}(i), $\tilde{\xi}_{\mathrm{DH}}(s_{\mathrm{ref}} + w)$ is entire in $w$; covering $|w| = 3$ around $s_{\mathrm{ref}} = \frac{1}{2} + 44838.46\,\ii$ by $256$ overlapping interval arcs $W_j := 3\ee^{\ii\Theta_j}$ ($\Theta_j = \frac{2\pi}{256}[(j + \frac{1}{2}) \pm 0.5001]$) in 384-bit \texttt{FLINT/Arb} certifies $M_3 := \max_{0 \le j < 256}\sup_{w \in W_j}|\tilde{\xi}_{\mathrm{DH}}(s_{\mathrm{ref}} + w)| \le 5.934 \times 10^8$, whence Cauchy's inequality $|c_k| \le M_3\cdot 3^{-k}$ on $|s(B_k) - s_{\mathrm{ref}}| + \sup|H_k| < \frac{6}{5}$ bounds all Taylor remainders in \eqref{eq:gsinc-regular} and its $z$- and $h$-derivatives (and similarly via $128$ arcs on $|w| = 2$ around $0.71 + 2442.49\,\ii$ for the $\rho_{2442}$ enclosure in Proposition~\ref{prop:critical-sinc}).
 \end{proof}
 
 \section*{Use of AI and computational verification}
@@ -646,6 +689,9 @@ For $n \ge N \ge 25$ and $u \in [0, U]$, $\ee^{4u} \ge 1$ and $n^2 \ge Nn$ give 
 Portions of the literature exploration, asymptotic stress-testing, manuscript drafting, and \texttt{FLINT/Arb} verification scripting were conducted with the assistance of an AI research assistant (\textbf{Gemini}). Every analytical inequality, contour deformation, M\"obius inversion identity, and interval-arithmetic enclosure reported in this paper was independently checked against symbolic and arbitrary-precision ball-arithmetic computations; all proof certificates are deterministically verified by the open-source script \nolinkurl{scripts/verify_paper15_debruijn_newman_dh.py} using \texttt{python-flint} \cite{johansson2017} (with optional figure regeneration via \texttt{-{}-regenerate-figures}).
 
 \begin{thebibliography}{99}
+
+\bibitem{bakerwustholz1993}
+A.~Baker and G.~W\"ustholz, \emph{Logarithmic forms and group varieties}, J. Reine Angew. Math. \textbf{442} (1993), 19--62.
 
 \bibitem{balanzario2007}
 E.~P.~Balanzario and J.~S\'anchez-Ortiz, \emph{Zeros of the Davenport--Heilbronn counterexample}, Math. Comp. \textbf{76} (2007), no.~260, 2045--2049.
@@ -686,6 +732,9 @@ H.~Ki and Y.-O.~Kim, \emph{On the number of nonreal zeros of real entire functio
 \bibitem{kikimlee2009}
 H.~Ki, Y.-O.~Kim, and J.~Lee, \emph{On the de~Bruijn--Newman constant}, Adv. Math. \textbf{222} (2009), no.~1, 281--306.
 
+\bibitem{korobov1958}
+N.~M.~Korobov, \emph{Estimates of trigonometric sums and their applications}, Uspekhi Mat. Nauk \textbf{13} (1958), no.~4(82), 185--192.
+
 \bibitem{lagariassuzuki2006}
 J.~C.~Lagarias and M.~Suzuki, \emph{The Riemann hypothesis for certain integrals of Eisenstein series}, J. Number Theory \textbf{118} (2006), no.~1, 98--122.
 
@@ -694,6 +743,9 @@ B.~Ja.~Levin, \emph{Distribution of Zeros of Entire Functions}, rev.\ ed., Trans
 
 \bibitem{levinson1974}
 N.~Levinson and H.~L.~Montgomery, \emph{Zeros of the derivatives of the Riemann zeta-function}, Acta Math. \textbf{133} (1974), 49--65.
+
+\bibitem{montgomeryvaughan2007}
+H.~L.~Montgomery and R.~C.~Vaughan, \emph{Multiplicative Number Theory I. Classical Theory}, Cambridge Stud. Adv. Math., vol.~97, Cambridge Univ. Press, Cambridge, 2007.
 
 \bibitem{newman1976}
 C.~M.~Newman, \emph{Fourier transforms with only real zeros}, Proc. Amer. Math. Soc. \textbf{61} (1976), no.~2, 245--251.

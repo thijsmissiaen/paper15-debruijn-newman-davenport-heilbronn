@@ -1,6 +1,6 @@
 {
   "title": "Asymptotic Shift Thresholds for Polya-Schur Multipliers and a Certified Lower Bound on the de Bruijn-Newman Constant of the Davenport-Heilbronn Function",
-  "description": "Establishes sufficient asymptotic shift conditions for real entire Polya-Schur multipliers G(-d^2/dz^2) acting on the completed Davenport-Heilbronn function Xi_DH(z) via the Stieltjes logarithmic derivative S_G(u) relative to sigma* = sup{Re(rho) : D_DH(rho) = 0} = 1.120362498183325... (generalizing Dobner 2021 and using single-zero syndetic translation to avoid Righetti's 2017 non-density phenomenon), constructs tower-lacunary canonical products (R_1 = 16, R_k = 2^(2^(R_{k-1}))) of every upper order rho in (1/2, 1) that preserve infinitely many off-line zeros without root-gap regularity, proves independently via a singularity-free 400-ball FLINT/Arb Interval-Newton continuation across h in [0, 311/500] and a Binet-Stirling upper bound that sigma* - 1/2 = h_global*(G_cosh; Xi_DH) < 311/500 < h_global*(G_sinc; Xi_DH) <= 31, and proves unconditionally 1153/5000 < Lambda_DH < 2*(sigma* - 1/2)^2 via a 448-bit Interval-Newton enclosure near rho_240 and a Davenport-Heilbronn adaptation of the Ki-Kim-Lee (2009) upper-bound method.",
+  "description": "Establishes sufficient asymptotic shift conditions for real entire Polya-Schur multipliers G(-d^2/dz^2) acting on the completed Davenport-Heilbronn function Xi_DH(z) via the Stieltjes logarithmic derivative S_G(u) relative to sigma* = sup{Re(rho) : D_DH(rho) = 0} = 1.120362498183325... (generalizing Dobner 2021 and using single-zero syndetic translation to avoid Righetti's 2017 non-density phenomenon), constructs tower-lacunary canonical products (R_1 = 16, R_k = 2^(2^(R_{k-1}))) of every upper order rho in (1/2, 1) that preserve infinitely many off-line zeros without root-gap regularity, proves independently via a singularity-free 384-bit 360-ball FLINT/Arb Interval-Newton continuation across all h in [0, 5/8] from rho_44838 (plus radius-10^-30 point enclosures at h = 5/8 and h = 625121/10^6) and a computer-free interval-splitting doubling proof that sigma* - 1/2 = h_global*(G_cosh; Xi_DH) < 5/8 < h_global*(G_sinc; Xi_DH) <= 2*sigma* - 1, establishes conditionally under RH for zeta(s) and GRH for L(s, chi_{5,quad}) that 8 <= N_off(G_{sinc,sigma*-1/2}(-d^2/dz^2)Xi_DH; infinity) < infinity at the critical boundary tau = 2*sigma* - 1 (with N_off >= 8 certified unconditionally), and proves unconditionally 28825920237/125000000000 < Lambda_DH < 2*(sigma* - 1/2)^2 via a 512-bit Interval-Newton enclosure near rho_240 at t = 0.230607361896 and a Davenport-Heilbronn adaptation of the Ki-Kim-Lee (2009) upper-bound method.",
   "upload_type": "publication",
   "publication_type": "preprint",
   "creators": [
@@ -34,5 +34,5 @@
     "MSC 26C10",
     "MSC 65G20"
   ],
-  "version": "15.1.0"
+  "version": "15.2.0"
 }

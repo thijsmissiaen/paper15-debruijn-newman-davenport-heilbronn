@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Rigorous C-Arb Ball-Arithmetic Verification Suite for Paper XV (v15.1.0)
+Rigorous C-Arb Ball-Arithmetic Verification Suite for Paper XV (v15.2.0)
 ========================================================================
 Manuscript: Asymptotic Shift Thresholds for Polya-Schur Multipliers and a
             Certified Lower Bound on the de Bruijn-Newman Constant of the
@@ -13,21 +13,23 @@ Default usage (verifies all FLINT/Arb certificates without touching figures/):
 Optional figure regeneration (writes PDF/PNG plots to figures/):
     python scripts/verify_paper15_debruijn_newman_dh.py --regenerate-figures
 
-Certifies in 320-bit and 448-bit FLINT/Arb interval ball arithmetic (python-flint):
+Certifies in 320-bit, 384-bit, and 512-bit FLINT/Arb ball arithmetic (python-flint):
   [1/4] IVT enclosure of sigma* = sup{Re(rho) : D_DH(rho) = 0} (radius 10^-30),
-        h_infty* = sigma* - 1/2, 2*(sigma* - 1/2)^2, and Euler-product phase sign
-        -(1 - i*kappa)/(1 + i*kappa) = exp(+2i*(pi/2 - arctan(kappa))).
-  [2/4] Singularity-free Taylor-series + 512-arc Cauchy-circle Interval-Newton
-        continuation across the ENTIRE compact interval h in [0, 311/500] (400
-        overlapping h-balls including h = 0, plus radius 10^-30 enclosure at
-        h = 311/500), proving h_global*(G_sinc; Xi_DH) > 311/500 > sigma* - 1/2
-        independently of Section 2.
-  [3/4] 448-bit Interval-Newton off-real zero enclosure for H_t^DH(z) at exact
-        rational t = 1153/5000 = 0.2306 near rho_240 (radius 10^-32), proving
-        Lambda_DH > 1153/5000 = 0.2306.
-  [4/4] Explicit analytical constants for Lemma 4.2, Proposition 4.3, Theorem 3.2(ii)
-        (global finiteness h_global*(G_sinc; Xi_DH) <= 31 via Y_0 = 30), and
-        Proposition 2.6 (tower-lacunary canonical product S_G(u_k) -> 0).
+        h_infty* = sigma* - 1/2, 2*sigma* - 1, 2*(sigma* - 1/2)^2, and Euler-product
+        phase sign -(1 - i*kappa)/(1 + i*kappa) = exp(+2i*(pi/2 - arctan(kappa))).
+  [2/4] Singularity-free Taylor-series + 256-arc Cauchy-circle Interval-Newton
+        continuation across the ENTIRE compact interval h in [0, 5/8] (360
+        overlapping h-balls including h = 0, plus radius 10^-30 enclosures at
+        h = 5/8 = 0.625 and h = 625121/10^6 = 0.625121 near rho_44838, and
+        critical-boundary enclosures at h_* = sigma* - 1/2 near both rho_2442
+        and rho_44838), proving 5/8 < h_global*(G_sinc; Xi_DH) <= 2*sigma* - 1
+        independently of Section 2 and N_off(G_{sinc,sigma*-1/2}(-d_z^2)Xi_DH) >= 8.
+  [3/4] 512-bit Interval-Newton off-real zero enclosure for H_t^DH(z) at exact
+        rational t = 28825920237 / 125000000000 = 0.230607361896 near rho_240
+        (radius 10^-32), proving Lambda_DH > 28825920237 / 125000000000.
+  [4/4] Explicit analytical constants for Lemma 4.2, Proposition 4.3, Proposition 3.3
+        (branch-locking & Mellin residue constants on Re(w) >= 1.07), Remark 4.5
+        (Dobner Gaussian l^1-dominance threshold), and Proposition 2.7 (tower-lacunary).
 """
 
 from __future__ import annotations
@@ -129,72 +131,141 @@ def certify_supremum_sigma_star() -> tuple[flint.arb, flint.arb, flint.arb]:
     assert flint.arb(sigma_dec.mid(), flint.arb("1e-30")).contains(flint.arb(s_b.mid(), eps_ivt))
     sigma_star = flint.arb(sigma_dec.mid(), flint.arb("1e-30"))
     h_inf_star = sigma_star - flint.arb("0.5")
+    sinc_upper = 2 * h_inf_star
     debruijn_bound = 2 * (h_inf_star ** 2)
 
     print(f"      sigma*           = {sigma_star.str(36, radius=True)}")
     print(f"      sigma* - 1/2     = {h_inf_star.str(36, radius=True)}")
+    print(f"      2*sigma* - 1     = {sinc_upper.str(36, radius=True)}")
     print(f"      2*(sigma*-1/2)^2 = {debruijn_bound.str(36, radius=True)}")
     return sigma_star, h_inf_star, debruijn_bound
 
 
 # ============================================================================
-# 2. SINGULARITY-FREE CONTINUUM CERTIFICATE ON ALL h in [0, 311/500]
+# 2. SINGULARITY-FREE CONTINUUM CERTIFICATE ON ALL h in [0, 5/8] (rho_44838)
 # ============================================================================
 def certify_polya_sinc_separation(h_inf_star: flint.arb) -> dict[str, object]:
-    print("\n[2/4] Certifying singularity-free Interval-Newton cover across ALL h in [0, 311/500]...")
-    flint.ctx.prec = 320
+    print("\n[2/4] Certifying singularity-free Interval-Newton cover across ALL h in [0, 5/8] (rho_44838)...")
+    flint.ctx.prec = 384
     sqrt5 = flint.arb(5).sqrt()
     kap = ((flint.arb(10) - 2 * sqrt5).sqrt() - 2) / (sqrt5 - 1)
     pi_a = flint.arb.pi()
-    h_rat = flint.arb(311) / flint.arb(500)
-    assert bool(h_rat > h_inf_star)
+    h_58 = flint.arb(5) / flint.arb(8)
+    h_sharp = flint.arb(625121) / flint.arb(1000000)
+    assert bool(h_58 > h_inf_star and h_sharp > h_58)
 
-    # Common reference point near the midpoint of {s(z(h)) : h in [0, 311/500]}
-    s_ref = flint.acb(flint.arb("0.71"), flint.arb("2442.49"))
+    s_ref = flint.acb(flint.arb("0.5"), flint.arb("44838.46"))
 
-    def tilde_xi(s: flint.acb) -> flint.acb:
+    def tilde_xi_44838(s: flint.acb) -> flint.acb:
         lp = (flint.acb(5) / pi_a).log()
         lg = ((s + 1) / 2).lgamma() - ((s_ref + 1) / 2).lgamma()
         rg = (((s - s_ref) / 2) * lp + lg).exp()
-        fv = (flint.acb(5) ** (-s)) * (
+        fv = ((-s * flint.acb(5).log()).exp()) * (
             s.zeta(flint.acb(1) / 5) + kap * s.zeta(flint.acb(2) / 5)
             - kap * s.zeta(flint.acb(3) / 5) - s.zeta(flint.acb(4) / 5)
         )
         return rg * fv
 
-    def tilde_xi_series(sb: flint.acb, cap_len: int) -> flint.acb_series:
-        flint.ctx.cap = cap_len
-        ss = flint.acb_series([sb, 1])
-        lp = (flint.acb(5) / pi_a).log()
-        lg = ((ss + 1) / 2).lgamma() - ((s_ref + 1) / 2).lgamma()
-        rg = (((ss - s_ref) / 2) * lp + lg).exp()
-        pref5 = (-ss * flint.acb(5).log()).exp()
-        fv = pref5 * (
-            ss.zeta(flint.acb(1) / 5) + kap * ss.zeta(flint.acb(2) / 5)
-            - kap * ss.zeta(flint.acb(3) / 5) - ss.zeta(flint.acb(4) / 5)
-        )
-        return rg * fv
-
-    # Certify M_45 := sup_{|w - s_ref| = 4.5} |tilde_xi(w)| via 512 overlapping interval arcs
-    M_45 = flint.arb(0)
+    # Certify M_3 := sup_{|w - s_ref| = 3} |tilde_xi(w)| via 256 overlapping interval arcs
+    M_3 = flint.arb(0)
     half_step = flint.arb("0.5001")
-    for k in range(512):
-        th = 2 * pi_a * flint.arb(flint.arb(k) + flint.arb("0.5"), half_step) / 512
-        w = flint.arb("4.5") * (flint.acb(0, 1) * th).exp()
-        M_45 = M_45.max(abs(tilde_xi(s_ref + w)).upper())
-    print(f"      512-arc Cauchy bound on |w - s_ref| = 4.5: M_4.5 <= {float(M_45.upper()):.4e}")
+    for k in range(256):
+        th = 2 * pi_a * flint.arb(flint.arb(k) + flint.arb("0.5"), half_step) / 256
+        w = flint.arb(3) * (flint.acb(0, 1) * th).exp()
+        M_3 = M_3.max(abs(tilde_xi_44838(s_ref + w)).upper())
+    print(f"      256-arc Cauchy bound on |w - s_ref| = 3: M_3 <= {float(M_3.upper()):.4e}")
 
-    # Singularity-free series g_sinc(z, h) = (1/2) * int_{-1}^1 tilde_xi(s(z) + h*v) dv
-    # = sum_{m>=0} (c_{2m}(s(z)) / (2m+1)) * h^{2m}, regular at h = 0 with zero division by h!
-    # Cover [0, 285/500] with 180 balls, [285/500, 308/500] with 120 balls,
-    # and [308/500, 311/500] with 100 balls (400 overlapping h-balls in total).
+    ORD_PT = 128
+    ORD_SL = 52
+    flint.ctx.cap = ORD_PT
+    ss = flint.acb_series([s_ref, 1])
+    lp = (flint.acb(5) / pi_a).log()
+    lg = ((ss + 1) / 2).lgamma() - ((s_ref + 1) / 2).lgamma()
+    rg = (((ss - s_ref) / 2) * lp + lg).exp()
+    fv = ((-ss * flint.acb(5).log()).exp()) * (
+        ss.zeta(flint.acb(1) / 5) + kap * ss.zeta(flint.acb(2) / 5)
+        - kap * ss.zeta(flint.acb(3) / 5) - ss.zeta(flint.acb(4) / 5)
+    )
+    jet = rg * fv
+    cks = [jet[k] for k in range(ORD_PT)]
+    int_cks = [cks[k] / (k + 1) for k in range(ORD_PT)]
+    binom_even = [[flint.arb(math.comb(k, 2 * m)) / (2 * m + 1) for m in range(k // 2 + 1)] for k in range(ORD_SL)]
+    binom_dh = [[flint.arb(math.comb(k, 2 * m) * 2 * m) / (2 * m + 1) for m in range(1, k // 2 + 1)] for k in range(ORD_SL)]
+
+    def eval_sinc_slice(ds: flint.acb, h: flint.arb) -> tuple[flint.acb, flint.acb, flint.acb]:
+        # Singularity-free power series on all h in R (including h = 0, zero division by h)
+        rm = abs(ds).upper() + abs(h).upper()
+        assert bool(rm < flint.arb("1.2")), "Trajectory left inner disk |w - s_ref| < 1.2"
+        q = rm / 3
+        err0 = M_3 * (q ** ORD_SL) / (1 - q)
+        err1 = (M_3 / 3) * ORD_SL * (q ** (ORD_SL - 1)) / ((1 - q) ** 2)
+        h2 = h * h
+        h2p = [flint.arb(1)]
+        for _ in range(ORD_SL // 2):
+            h2p.append(h2p[-1] * h2)
+        dsp = [flint.acb(1)]
+        for _ in range(ORD_SL):
+            dsp.append(dsp[-1] * ds)
+        v0 = flint.acb(0)
+        v1 = flint.acb(0)
+        vh = flint.acb(0)
+        for k in range(ORD_SL):
+            ck = cks[k]
+            s0 = flint.acb(0)
+            for m, bm in enumerate(binom_even[k]):
+                s0 += bm * dsp[k - 2 * m] * h2p[m]
+            v0 += ck * s0
+            if k >= 1:
+                s1 = flint.acb(0)
+                for m, bm in enumerate(binom_even[k - 1]):
+                    s1 += bm * dsp[k - 1 - 2 * m] * h2p[m]
+                v1 += (ck * k) * s1
+            if k >= 2:
+                sh = flint.acb(0)
+                for idx, bm in enumerate(binom_dh[k]):
+                    m = idx + 1
+                    sh += bm * dsp[k - 2 * m] * (h * h2p[m - 1])
+                vh += ck * sh
+        return (
+            v0 + flint.acb(flint.arb(0, err0.upper()), flint.arb(0, err0.upper())),
+            (flint.acb(0, 1) / 2) * (v1 + flint.acb(flint.arb(0, err1.upper()), flint.arb(0, err1.upper()))),
+            vh + flint.acb(flint.arb(0, err1.upper()), flint.arb(0, err1.upper())),
+        )
+
+    def eval_xi_ball(u: flint.acb) -> flint.acb:
+        acc = flint.acb(0)
+        for k in range(ORD_PT - 1, -1, -1):
+            acc = acc * u + cks[k]
+        ru = abs(u).upper()
+        assert bool(ru < flint.arb("1.2"))
+        q = ru / 3
+        err = M_3 * (q ** ORD_PT) / (1 - q)
+        eb = flint.arb(0, err.upper())
+        return acc + flint.acb(eb, eb)
+
+    def eval_int_diff(ds: flint.acb, h: flint.arb) -> flint.acb:
+        up = ds + h
+        um = ds - h
+        ap = flint.acb(0)
+        am = flint.acb(0)
+        for k in range(ORD_PT - 1, -1, -1):
+            ap = ap * up + int_cks[k]
+            am = am * um + int_cks[k]
+        r_seg = abs(up).upper().max(abs(um).upper())
+        assert bool(r_seg < flint.arb("1.2"))
+        q = r_seg / 3
+        err = M_3 * (q ** ORD_PT) / (1 - q)
+        eb = flint.arb(0, err.upper())
+        return (ap * up - am * um) / (2 * h) + flint.acb(eb, eb)
+
     segments = [
-        (flint.arb(0), flint.arb(285) / flint.arb(500), 180, flint.arb("6e-3")),
-        (flint.arb(285) / flint.arb(500), flint.arb(308) / flint.arb(500), 120, flint.arb("2.5e-3")),
-        (flint.arb(308) / flint.arb(500), flint.arb(311) / flint.arb(500), 100, flint.arb("1.2e-3")),
+        (flint.arb(0), flint.arb("0.55"), 120, flint.arb("8e-3")),
+        (flint.arb("0.55"), flint.arb("0.620"), 100, flint.arb("3e-3")),
+        (flint.arb("0.620"), flint.arb("0.6247"), 80, flint.arb("8e-4")),
+        (flint.arb("0.6247"), h_58, 60, flint.arb("2e-4")),
     ]
-    z_tr = flint.acb("4885.06058493697206", "-0.79550030995402")
-    sinc_curve: list[tuple[float, float]] = []
+    z_tr = flint.acb("89676.9504213421348454833650904697546", "-0.83227516635938639129247749946982753")
+    sinc_curve_44838: list[tuple[float, float]] = []
     prev_slice: tuple[flint.arb, flint.arb, flint.acb, flint.acb, flint.acb, flint.acb] | None = None
     last_B_k: flint.acb | None = None
     total_balls = 0
@@ -207,72 +278,37 @@ def certify_polya_sinc_separation(h_inf_star: flint.arb) -> dict[str, object]:
             H_k = flint.arb(h_mid.mid(), dh_pad.upper())
             if seg_idx == 0 and k_s == 0:
                 assert H_k.contains(flint.arb(0)), "First h-ball must contain h = 0"
-                sinc_curve.append((0.0, abs(float(z_tr.imag.mid())) / 2.0))
+                sinc_curve_44838.append((0.0, abs(float(z_tr.imag.mid())) / 2.0))
             if seg_idx == len(segments) - 1 and k_s == n_balls - 1:
-                assert H_k.contains(h_rat), "Final h-ball must contain h = 311/500"
+                assert H_k.contains(h_58), "Final h-ball must contain h = 5/8"
 
             for _ in range(3):
-                sb0 = flint.acb("0.5") + flint.acb(0, 1) * z_tr / 2
-                j0 = tilde_xi_series(sb0, 20)
-                f0 = sum((j0[2 * m] / (2 * m + 1)) * (h_mid ** (2 * m)) for m in range(10))
-                df0 = (flint.acb(0, 1) / 2) * sum(j0[2 * m + 1] * (h_mid ** (2 * m)) for m in range(9))
+                ds0 = flint.acb("0.5") + flint.acb(0, 1) * z_tr / 2 - s_ref
+                f0 = eval_int_diff(ds0, h_mid)
+                df0 = flint.acb(0, 1) * (eval_xi_ball(ds0 + h_mid) - eval_xi_ball(ds0 - h_mid)) / (4 * h_mid)
                 st = f0 / df0
                 z_tr = flint.acb((z_tr.real - st.real).mid(), (z_tr.imag - st.imag).mid())
 
-            sb_k = flint.acb("0.5") + flint.acb(0, 1) * z_tr / 2
-            assert bool(abs(sb_k - s_ref) < flint.arb("0.25")), "Trajectory left Cauchy disk"
-            R_avail = flint.arb("4.5") - abs(sb_k - s_ref).upper()  # > 4.25
-            jet_k = tilde_xi_series(sb_k, 40)
-
-            g_mid = sum((jet_k[2 * m] / (2 * m + 1)) * (h_mid ** (2 * m)) for m in range(20))
-            q_m = h_mid.upper() / R_avail
-            err_g = M_45 * (q_m ** 40) / (1 - q_m)
-            g_mid += flint.acb(flint.arb(0, err_g.upper()), flint.arb(0, err_g.upper()))
-
-            H_abs = abs(H_k).upper()
-            q_H = H_abs / R_avail
-            dh_g = sum((flint.arb(2 * m) / (2 * m + 1)) * jet_k[2 * m] * (H_k ** (2 * m - 1)) for m in range(1, 20))
-            err_dh = (M_45 / R_avail) * (q_H ** 39) / (1 - q_H * q_H)
-            dh_g += flint.acb(flint.arb(0, err_dh.upper()), flint.arb(0, err_dh.upper()))
-
+            ds_mid = flint.acb("0.5") + flint.acb(0, 1) * z_tr / 2 - s_ref
             B_k = z_tr + flint.acb(flint.arb(0, r_box), flint.arb(0, r_box))
-            G1 = (flint.acb(0, 1) / 2) * sum(jet_k[2 * m + 1] * (H_k ** (2 * m)) for m in range(19))
-            err_G1 = (M_45 / (2 * R_avail)) * (q_H ** 38) / (1 - q_H * q_H)
-            G1 += flint.acb(flint.arb(0, err_G1.upper()), flint.arb(0, err_G1.upper()))
+            ds_B = flint.acb("0.5") + flint.acb(0, 1) * B_k / 2 - s_ref
+            g_mid, _, _ = eval_sinc_slice(ds_mid, h_mid)
+            _, _, dh_g = eval_sinc_slice(ds_mid, H_k)
+            _, dz_g_Bk, _ = eval_sinc_slice(ds_B, H_k)
 
-            G2 = (-flint.arb(1) / 4) * sum(flint.arb(2 * m + 2) * jet_k[2 * m + 2] * (H_k ** (2 * m)) for m in range(18))
-            err_G2 = (M_45 / (4 * R_avail * R_avail)) * 38 * (q_H ** 36) / ((1 - q_H) ** 2)
-            G2 += flint.acb(flint.arb(0, err_G2.upper()), flint.arb(0, err_G2.upper()))
-
-            G3 = (-flint.acb(0, 1) / 8) * sum(
-                flint.arb((2 * m + 3) * (2 * m + 2)) * jet_k[2 * m + 3] * (H_k ** (2 * m)) for m in range(17)
-            )
-            err_G3 = (M_45 / (8 * (R_avail ** 3))) * 1332 * (q_H ** 34) / ((1 - q_H) ** 3)
-            G3 += flint.acb(flint.arb(0, err_G3.upper()), flint.arb(0, err_G3.upper()))
-
-            dz_var = B_k - z_tr
-            dz_max = abs(dz_var).upper()
-            R_rem = R_avail - (dz_max / 2 + H_abs)
-            assert bool(R_rem > flint.arb("3.5")), "Remainder radius dropped below 7/2"
-            err_dz4 = (dz_max ** 3) * M_45 / (4 * (R_rem ** 4))
-            dz_g_Bk = G1 + dz_var * (G2 + (dz_var / 2) * G3) + flint.acb(
-                flint.arb(0, err_dz4.upper()), flint.arb(0, err_dz4.upper())
-            )
-
-            g_zk_Hk = g_mid + (H_k - h_mid) * dh_g
-            N_Bk = z_tr - g_zk_Hk / dz_g_Bk
+            N_Bk = z_tr - (g_mid + (H_k - h_mid) * dh_g) / dz_g_Bk
             assert B_k.contains_interior(N_Bk) and bool(N_Bk.imag < flint.arb(0)), (
                 f"Continuum sinc cert failed at segment {seg_idx}, slice {k_s}"
             )
             if seg_idx == 0 and k_s == 0:
-                z_rho0 = flint.acb("4885.06058493697206", "-0.79550030995402")
+                z_rho0 = flint.acb("89676.9504213421348454833650904697546", "-0.83227516635938639129247749946982753")
                 B_rho0 = z_rho0 + flint.acb(flint.arb(0, flint.arb("1e-12")), flint.arb(0, flint.arb("1e-12")))
-                j_rho0 = tilde_xi_series(flint.acb("0.5") + flint.acb(0, 1) * B_rho0 / 2, 2)
-                N_rho0 = z_rho0 - tilde_xi(flint.acb("0.5") + flint.acb(0, 1) * z_rho0 / 2) / (
-                    (flint.acb(0, 1) / 2) * j_rho0[1]
-                )
+                ds_r0 = flint.acb("0.5") + flint.acb(0, 1) * z_rho0 / 2 - s_ref
+                ds_Br0 = flint.acb("0.5") + flint.acb(0, 1) * B_rho0 / 2 - s_ref
+                _, dz_r0, _ = eval_sinc_slice(ds_Br0, flint.arb(0))
+                N_rho0 = z_rho0 - eval_xi_ball(ds_r0) / dz_r0
                 assert B_rho0.contains_interior(N_rho0) and B_k.contains(B_rho0), (
-                    "Initial h = 0 zero enclosure B_rho0 (rho_2442) failed or not inside B_1"
+                    "Initial h = 0 zero enclosure B_rho0 (rho_44838) failed or not inside B_1"
                 )
             if prev_slice is not None:
                 p_H, p_hmid, p_ztr, p_gmid, p_dhg, p_dzg = prev_slice
@@ -286,52 +322,123 @@ def certify_polya_sinc_separation(h_inf_star: flint.arb) -> dict[str, object]:
             prev_slice = (H_k, h_mid, z_tr, g_mid, dh_g, dz_g_Bk)
             last_B_k = B_k
             total_balls += 1
-            if k_s % 10 == 0 or (seg_idx == 1 and k_s % 16 == 15):
-                sinc_curve.append((float(h_mid.mid()), abs(float(z_tr.imag.mid())) / 2.0))
+            if k_s % 8 == 0 or seg_idx >= 2:
+                sinc_curve_44838.append((float(h_mid.mid()), abs(float(z_tr.imag.mid())) / 2.0))
 
-    # Sharp enclosure around exact printed decimal midpoint at h = 311/500 (radius 10^-30):
-    zc_s = flint.acb(
+    def certify_pt_44838(zc_pt: flint.acb, h_val: flint.arb, r_pt: flint.arb) -> flint.acb:
+        Bp = zc_pt + flint.acb(flint.arb(0, r_pt), flint.arb(0, r_pt))
+        dsp = flint.acb("0.5") + flint.acb(0, 1) * zc_pt / 2 - s_ref
+        dsB = flint.acb("0.5") + flint.acb(0, 1) * Bp / 2 - s_ref
+        fp = eval_int_diff(dsp, h_val)
+        dfp = flint.acb(0, 1) * (eval_xi_ball(dsB + h_val) - eval_xi_ball(dsB - h_val)) / (4 * h_val)
+        Np = zc_pt - fp / dfp
+        assert Bp.contains_interior(Np) and bool(Np.imag < flint.arb(0)), "Point cert failed for rho_44838"
+        return Bp
+
+    zc_58 = flint.acb(
+        "89676.898678875343559173771577620034736",
+        "-0.01056386075347512714311622077705919110",
+    )
+    B_58 = certify_pt_44838(zc_58, h_58, flint.arb("1e-30"))
+    assert last_B_k is not None and last_B_k.contains(B_58), "B_58 must lie inside B_360 for branch continuity"
+    sinc_curve_44838.append((0.625, abs(float(zc_58.imag.mid())) / 2.0))
+
+    zc_sharp = flint.acb(
+        "89676.898662653368485342445005525886056",
+        "-0.00055069865930981622151740114454506183",
+    )
+    certify_pt_44838(zc_sharp, h_sharp, flint.arb("1e-30"))
+    sinc_curve_44838.append((0.625121, abs(float(zc_sharp.imag.mid())) / 2.0))
+
+    zc_44838_hstar = flint.acb(
+        "89676.899296681820873729194536307475930",
+        "-0.06634905818151495877633209560664307483",
+    )
+    certify_pt_44838(zc_44838_hstar, h_inf_star, flint.arb("1e-27"))
+
+    # Also certify rho_2442 at h_* = sigma* - 1/2 and h = 311/500 (320-bit, 128-arc Cauchy bound on |w - s_ref2| = 2):
+    flint.ctx.prec = 320
+    s_ref2 = flint.acb(flint.arb("0.71"), flint.arb("2442.49"))
+    sqrt5_320 = flint.arb(5).sqrt()
+    kap_320 = ((flint.arb(10) - 2 * sqrt5_320).sqrt() - 2) / (sqrt5_320 - 1)
+    pi_320 = flint.arb.pi()
+
+    def tilde_xi_2442(s: flint.acb) -> flint.acb:
+        lp2 = (flint.acb(5) / pi_320).log()
+        lg2 = ((s + 1) / 2).lgamma() - ((s_ref2 + 1) / 2).lgamma()
+        rg2 = (((s - s_ref2) / 2) * lp2 + lg2).exp()
+        fv2 = ((-s * flint.acb(5).log()).exp()) * (
+            s.zeta(flint.acb(1) / 5) + kap_320 * s.zeta(flint.acb(2) / 5)
+            - kap_320 * s.zeta(flint.acb(3) / 5) - s.zeta(flint.acb(4) / 5)
+        )
+        return rg2 * fv2
+
+    M2_2442 = flint.arb(0)
+    for k in range(128):
+        th2 = 2 * pi_320 * flint.arb(flint.arb(k) + flint.arb("0.5"), flint.arb("0.5001")) / 128
+        w2 = flint.arb(2) * (flint.acb(0, 1) * th2).exp()
+        M2_2442 = M2_2442.max(abs(tilde_xi_2442(s_ref2 + w2)).upper())
+
+    def certify_pt_2442(zc2: flint.acb, h2_val: flint.arb, r2_pt: flint.arb) -> None:
+        flint.ctx.cap = 96
+        sb2 = flint.acb("0.5") + flint.acb(0, 1) * zc2 / 2
+        ss2 = flint.acb_series([sb2, 1])
+        lp2 = (flint.acb(5) / pi_320).log()
+        lg2 = ((ss2 + 1) / 2).lgamma() - ((s_ref2 + 1) / 2).lgamma()
+        rg2 = (((ss2 - s_ref2) / 2) * lp2 + lg2).exp()
+        fv2 = ((-ss2 * flint.acb(5).log()).exp()) * (
+            ss2.zeta(flint.acb(1) / 5) + kap_320 * ss2.zeta(flint.acb(2) / 5)
+            - kap_320 * ss2.zeta(flint.acb(3) / 5) - ss2.zeta(flint.acb(4) / 5)
+        )
+        j2 = rg2 * fv2
+        R_av2 = flint.arb(2) - abs(sb2 - s_ref2).upper()
+        q2 = abs(h2_val).upper() / R_av2
+        err2 = M2_2442 * (q2 ** 96) / (1 - q2)
+        f2 = sum((j2[2 * m] / (2 * m + 1)) * (h2_val ** (2 * m)) for m in range(48)) + flint.acb(
+            flint.arb(0, err2.upper()), flint.arb(0, err2.upper())
+        )
+        B2 = zc2 + flint.acb(flint.arb(0, r2_pt), flint.arb(0, r2_pt))
+        sb_B2 = flint.acb("0.5") + flint.acb(0, 1) * B2 / 2
+        df2 = flint.acb(0, 1) * (tilde_xi_2442(sb_B2 + h2_val) - tilde_xi_2442(sb_B2 - h2_val)) / (4 * h2_val)
+        N2 = zc2 - f2 / df2
+        assert B2.contains_interior(N2) and bool(N2.imag < flint.arb(0)), "Point cert failed for rho_2442"
+
+    zc_2442_hstar = flint.acb(
+        "4884.88734363569522396877972427073875",
+        "-0.071915260298399708621062650316073866",
+    )
+    certify_pt_2442(zc_2442_hstar, h_inf_star, flint.arb("1e-27"))
+
+    zc_2442_622 = flint.acb(
         "4884.88665419175715643333300197615178",
         "-0.056004628860858072317639148896287841",
     )
-    sb_pt = flint.acb("0.5") + flint.acb(0, 1) * zc_s / 2
-    R_av_pt = flint.arb("4.5") - abs(sb_pt - s_ref).upper()
-    j_pt = tilde_xi_series(sb_pt, 66)
-    f_mid = sum((j_pt[2 * m] / (2 * m + 1)) * (h_rat ** (2 * m)) for m in range(32))
-    q_pt = h_rat / R_av_pt
-    err_pt = M_45 * (q_pt ** 64) / (1 - q_pt)
-    f_mid += flint.acb(flint.arb(0, err_pt.upper()), flint.arb(0, err_pt.upper()))
+    certify_pt_2442(zc_2442_622, flint.arb(311) / flint.arb(500), flint.arb("1e-30"))
 
-    r_sinc = flint.arb("1e-30")
-    B_sinc = zc_s + flint.acb(flint.arb(0, r_sinc), flint.arb(0, r_sinc))
-    assert last_B_k is not None and last_B_k.contains(B_sinc), "B_sinc must lie inside B_400 for branch continuity"
-    sb_B = flint.acb("0.5") + flint.acb(0, 1) * B_sinc / 2
-    df_B = flint.acb(0, 1) * (tilde_xi(sb_B + h_rat) - tilde_xi(sb_B - h_rat)) / (4 * h_rat)
-    N_B = zc_s - f_mid / df_B
-    cert_in = B_sinc.contains_interior(N_B)
-    cert_im = bool(N_B.imag < flint.arb(0))
-    assert cert_in and cert_im, "Point Interval-Newton certificate at h = 311/500 failed"
-    sinc_curve.append((0.622, abs(float(zc_s.imag.mid())) / 2.0))
+    print(f"      Continuum & branch-overlap certified across ALL h in [0, 5/8] ({total_balls} balls, 359 joins): True")
+    print(f"      z_44838(5/8)        = {zc_58.real.str(36, radius=False)} + ({zc_58.imag.str(36, radius=False)})j (r=10^-30)")
+    print(f"      z_44838(625121/10^6)= {zc_sharp.real.str(36, radius=False)} + ({zc_sharp.imag.str(36, radius=False)})j (r=10^-30)")
+    print(f"      Critical boundary h_* = sigma* - 1/2 certified for rho_2442 and rho_44838 (N_off >= 8, r=10^-27): True")
 
-    print(f"      Continuum & branch-overlap certified across ALL h in [0, 311/500] ({total_balls} balls, 399 joins): True")
-    print(f"      z_sinc(311/500) = {zc_s.real.str(34, radius=False)} + ({zc_s.imag.str(34, radius=False)})j")
-    print(f"      N(B_sinc) c int(B_sinc) (r=10^-30): {cert_in},  Im(z_sinc(311/500)) < 0: {cert_im}")
-
-    return {"z_sinc_622": zc_s, "sinc_curve": sinc_curve, "tilde_xi": tilde_xi}
+    return {
+        "z_44838_58": zc_58,
+        "sinc_curve_44838": sinc_curve_44838,
+        "tilde_xi_2442": tilde_xi_2442,
+    }
 
 
 # ============================================================================
-# 3. 448-BIT INTERVAL-NEWTON HEAT WITNESS AT t = 1153/5000 = 0.2306 (rho_240)
+# 3. 512-BIT INTERVAL-NEWTON HEAT WITNESS AT t = 28825920237 / 125000000000
 # ============================================================================
 def certify_heat_flow_witness() -> flint.acb:
-    print("\n[3/4] Certifying 448-bit Interval-Newton witness at exact rational t = 1153/5000 = 0.2306...")
-    flint.ctx.prec = 448
+    print("\n[3/4] Certifying 512-bit Interval-Newton witness at t = 28825920237/125000000000 = 0.230607361896...")
+    flint.ctx.prec = 512
     sqrt5 = flint.arb(5).sqrt()
     kap = ((flint.arb(10) - 2 * sqrt5).sqrt() - 2) / (sqrt5 - 1)
     pi_a = flint.arb.pi()
     pi5 = flint.acb(pi_a / 5)
 
-    n_terms = 32
+    n_terms = 34
     coeffs = []
     for n in range(1, n_terms):
         r = n % 5
@@ -347,9 +454,9 @@ def certify_heat_flow_witness() -> flint.acb:
             s += nc * (-(n2p * e4u)).exp()
         return 4 * (3 * u).exp() * s
 
-    U_top = flint.arb("2.28")
-    t_heat = flint.arb(1153) / flint.arb(5000)
-    tol = flint.arb("1e-122")
+    U_top = flint.arb(23) / flint.arb(10)
+    t_heat = flint.arb(28825920237) / flint.arb(125000000000)
+    tol = flint.arb("1e-136")
 
     def tail_ball(y_abs: flint.arb, deriv_order: int) -> flint.arb:
         r_geom = (-(flint.arb(n_terms) * pi_a / 5)).exp()
@@ -369,14 +476,14 @@ def certify_heat_flow_witness() -> flint.acb:
             ker = lambda u, _: -(u * u) * (tc * u * u).exp() * Phi_DH(u) * (z * u).cos()
         else:
             ker = lambda u, _: (u ** 3) * (tc * u * u).exp() * Phi_DH(u) * (z * u).sin()
-        Im = 2 * flint.acb.integral(ker, flint.acb(0), flint.acb(U_top), abs_tol=tol, rel_tol=tol, eval_limit=260000)
+        Im = 2 * flint.acb.integral(ker, flint.acb(0), flint.acb(U_top), abs_tol=tol, rel_tol=tol, eval_limit=300000)
         eb = tail_ball(abs(z.imag).upper(), order)
         rad = flint.arb(0, eb)
         return Im + flint.acb(rad, rad)
 
     zc = flint.acb(
-        "480.690235013620019064551671086167379",
-        "-0.003837169565586910716957555909571243",
+        "480.6902310425074727072038413480701557071",
+        "-9.535301365553738949062115339251329328331e-7",
     )
     r_box = flint.arb("1e-32")
     B = zc + flint.acb(flint.arb(0, r_box), flint.arb(0, r_box))
@@ -390,25 +497,23 @@ def certify_heat_flow_witness() -> flint.acb:
     d2fz = H_deriv_rig(zc, 2)
     d3fz = H_deriv_rig(zc, 3)
     dz = B - zc
-    # By Taylor's theorem on H_t': |H_t'(z) - (dfz + dz*d2fz + dz^2/2 * d3fz)| <= (|dz|^3 / 6) * M4,
-    # where |dz| <= sqrt(2) * r_box => |dz|^3 / 6 <= (2*sqrt(2)/6) * r_box^3 < 0.5 * r_box^3:
     rem_d1 = (abs(dz).upper() ** 3) * M4 / 6
     df_B = dfz + dz * (d2fz + (dz / 2) * d3fz) + flint.acb(flint.arb(0, rem_d1.upper()), flint.arb(0, rem_d1.upper()))
     N_B = zc - fz / df_B
 
     ok_in = B.contains_interior(N_B)
     ok_im = bool(N_B.imag < flint.arb(0))
-    assert ok_in and ok_im, "Interval-Newton failed for rho_240 at t = 1153/5000"
-    print(f"      z_240(1153/5000) = {zc.real.str(36, radius=False)} + ({zc.imag.str(36, radius=False)})j")
+    assert ok_in and ok_im, "Interval-Newton failed for rho_240 at t = 0.230607361896"
+    print(f"      z_240(0.230607361896) = {zc.real.str(36, radius=False)} + ({zc.imag.str(36, radius=False)})j")
     print(f"      N(B) c int(B) (r=10^-32): {ok_in},  Im(z) < 0: {ok_im}")
     return zc
 
 
 # ============================================================================
-# 4. EXPLICIT CONSTANTS FOR THEOREM 3.2(ii), PROPOSITION 4.3 & PROPOSITION 2.7
+# 4. EXPLICIT CONSTANTS FOR PROPOSITION 3.3, PROPOSITION 4.3 & PROPOSITION 2.7
 # ============================================================================
-def verify_analytic_lemmas() -> None:
-    print("\n[4/4] Verifying explicit analytic bounds (Abel, Dirichlet tail, sinc upper bound, lacunary)...")
+def verify_analytic_lemmas(sigma_star: flint.arb) -> None:
+    print("\n[4/4] Verifying explicit analytic bounds (Abel, Dirichlet tail, Prop. 3.3, Dobner l^1, lacunary)...")
     mp.mp.dps = 45
     sqrt5 = mp.sqrt(5)
     kap = (mp.sqrt(10 - 2 * sqrt5) - 2) / (sqrt5 - 1)
@@ -432,21 +537,33 @@ def verify_analytic_lemmas() -> None:
     assert tail_74 < mp.mpf("0.50")
     print(f"      Dirichlet tail sum_{{n>=2}} |a_DH(n)| n^(-7/4) = {mp.nstr(tail_74, 14)} < 0.50 (OK)")
 
-    # 4c. Global finiteness h_global*(G_sinc; Xi_DH) <= 31 via Y_0 = 30:
-    # On Y >= 30 (|z_+| >= 15.75, alpha_R = 0.5*log(5*|z_+|/pi) > 1.61),
-    # splitting [0, Y] = [0, 6] U [6, Y-4] U [Y-4, Y] leaves Re(J(gam, Y) / d_Y J(gam, Y)) > 0.70 / alpha_R > 0:
-    zmin = 15.75
-    aR_min = 0.5 * math.log(5.0 * zmin / math.pi)
-    re_inv_alpha = 1.0 / (1.0 + (math.pi ** 2 / 16.0) / (aR_min ** 2))  # > 0.807
-    err_main = 1e-5 + 0.33 * (2.0 / (aR_min ** 2) + 2.1 / aR_min) / zmin + math.exp(-6.0 * aR_min)
-    base_scale = (5.0 * zmin / math.pi) ** (-3.0)
-    err_mid = (2.5 * 1.06 / 0.9999) * (1.0 / 0.64) * base_scale * aR_min
-    err_end = 4.0 * 2.5 * math.exp(-11.8) * base_scale * (38.0 * (zmin ** 0.5) / 0.9999) * aR_min
-    net_coeff = re_inv_alpha - (err_main + err_mid + err_end)
-    assert net_coeff > 0.70, f"net_coeff={net_coeff}"
-    print(f"      Global sinc bound (Y >= 30 => h >= 31): Re(J / d_Y J) >= {net_coeff:.4f} / alpha_R > 0 (OK)")
+    # 4c. Rigorous Arb constants for Proposition 3.3 (branch-locking & Mellin residue on Re(w) >= 1.07):
+    flint.ctx.prec = 256
+    s5_a = flint.arb(5).sqrt()
+    kap_a = ((flint.arb(10) - 2 * s5_a).sqrt() - 2) / (s5_a - 1)
+    pi_a = flint.arb.pi()
+    theta_kap = pi_a - 2 * kap_a.atan()
+    two_pi_minus_theta = 2 * pi_a - theta_kap
 
-    # 4d. Gauss-Weierstrass half-line identity & Sinc half-line identity J(gam, h+delta) + conj(J(gam, h-delta)):
+    sig_107 = flint.arb(107) / flint.arb(100)
+    sc_107 = flint.acb(sig_107)
+    zeta_107 = sc_107.zeta().real
+    L_quad_107 = (
+        (flint.acb(5) ** (-sc_107))
+        * (sc_107.zeta(flint.acb(1) / 5) - sc_107.zeta(flint.acb(2) / 5) - sc_107.zeta(flint.acb(3) / 5) + sc_107.zeta(flint.acb(4) / 5))
+    ).real
+    # Using 2*arctan(x) < log((1+x)/(1-x)) for x in (0,1), sum_{p=2,3 mod 5} 2*arctan(p^-1.07) < log((1-5^-1.07)*zeta(1.07)/L(1.07,chi_5,quad)):
+    phi_upper_107 = ((1 - flint.arb(5) ** (-sig_107)) * zeta_107 / L_quad_107).log()
+    L_min_107 = (1 + flint.arb(5) ** (-sig_107)) * flint.acb(2 * sig_107).zeta().real / zeta_107
+    c_star = (flint.arb(2) ** (1 - sigma_star) - 1) * (1 - sigma_star).gamma()
+    assert bool(phi_upper_107 < flint.arb("3.33") and two_pi_minus_theta - phi_upper_107 > flint.arb("0.37"))
+    assert bool(L_min_107 > flint.arb(3) / flint.arb(25) and c_star > flint.arb("0.71"))
+    print(
+        f"      Prop. 3.3 branch lock (sigma>=1.07): max|Phi|<={float(phi_upper_107.upper()):.4f} < 3.33 < "
+        f"2*pi-theta_kap={float(two_pi_minus_theta.lower()):.4f}, |L|>={float(L_min_107.lower()):.4f}, c_*={float(c_star.mid()):.4f} (OK)"
+    )
+
+    # 4d. Gauss-Weierstrass half-line identity & Dobner Gaussian l^1-inflation threshold (Remark 4.5):
     def D_DH(s):
         return mp.power(5, -s) * (
             mp.hurwitz(s, mp.mpf(1) / 5) + kap * mp.hurwitz(s, mp.mpf(2) / 5)
@@ -479,7 +596,23 @@ def verify_analytic_lemmas() -> None:
 
     fold_err = abs(H_dir - (A_t(gam_chk, del_chk) + mp.conj(A_t(gam_chk, -del_chk))))
     assert fold_err < mp.mpf("1e-35")
-    print(f"      Gauss-Weierstrass half-line residual: {mp.nstr(fold_err, 8)} < 1e-35 (OK)")
+    # Dobner Riemann-Siegel-truncated l^1 tail sum_{2 <= n <= sqrt(5*gam/2*pi)} |a_DH(n)| * exp((t/4)*log^2 n) * n^(-1/2 - u_t):
+    def dobner_rs_tail(t_v: float, gam_v: float) -> float:
+        x_rs = 5.0 * gam_v / (2.0 * math.pi)
+        n_rs = int(math.isqrt(int(x_rs)))
+        ut = 0.25 * t_v * math.log(x_rs)
+        tot = 0.0
+        for n in range(2, n_rs + 1):
+            r = n % 5
+            if r == 0:
+                continue
+            an = 1.0 if r in (1, 4) else float(kap)
+            ln = math.log(n)
+            tot += an * math.exp(0.25 * t_v * ln * ln - (0.5 + ut) * ln)
+        return tot
+    assert dobner_rs_tail(0.50, 1.50e4) > 1.0 and dobner_rs_tail(0.50, 1.55e4) < 1.0
+    assert dobner_rs_tail(0.25, 4.15e8) > 1.0 and dobner_rs_tail(0.25, 4.21e8) < 1.0
+    print(f"      Gauss-Weierstrass half-line residual: {mp.nstr(fold_err, 8)} < 1e-35; Dobner RS l^1(0.25) ~ 4.18e8 (OK)")
 
     # 4e. Tower-lacunary canonical product at rho = 3/4, R_1 = 16, R_2 = 2^65536:
     log2_R2 = mp.mpf(65536)
@@ -569,18 +702,19 @@ def generate_figures(sinc_data: dict[str, object]) -> None:
     t531, d531 = trace_heat_curve(531.2797268965, 0.8469538031, 0.20127583)
     t240, d240 = trace_heat_curve(240.4046723514, 0.8695305796, 0.23060736)
 
+    t_rat_plot = 0.230607361896
     ax1.plot(t1, d1, color="#556B8D", ls="--", lw=1.5, label=r"$\rho_1\ (\gamma \approx 85.70,\ t_{\mathrm{col}} \approx 0.1765)$")
     ax1.plot(t531, d531, color="#B85D19", ls="-.", lw=1.6, label=r"$\rho_{531}\ (\gamma \approx 531.28,\ t_{\mathrm{col}} \approx 0.2013)$")
-    ax1.plot(t240, d240, color="#8B1E3F", ls="-", lw=2.1, label=r"$\rho_{240}\ (\gamma \approx 240.40,\ t_{\mathrm{col}} \approx 0.23061)$")
-    ax1.axvline(0.2306, color="#1B4332", ls=":", lw=1.5, label=r"Certified witness $t = 1153/5000 = 0.2306$")
-    ax1.scatter([0.2306], [0.00383717 / 2.0], color=["#8B1E3F"], zorder=6, s=38)
-    ax1.annotate(r"Certified at $t = \frac{1153}{5000}$", xy=(0.2306, 0.0019), xytext=(0.022, 0.042),
-                 arrowprops={"arrowstyle": "->", "lw": 0.85, "color": "#8B1E3F"}, fontsize=8.2, color="#8B1E3F")
+    ax1.plot(t240, d240, color="#8B1E3F", ls="-", lw=2.1, label=r"$\rho_{240}\ (\gamma \approx 240.40,\ t_{\mathrm{col}} \approx 0.230607)$")
+    ax1.axvline(t_rat_plot, color="#1B4332", ls=":", lw=1.5, label=r"Certified $t = 0.230607361896$")
+    ax1.scatter([t_rat_plot], [9.5353e-7 / 2.0], color=["#8B1E3F"], zorder=6, s=38)
+    ax1.annotate(r"Certified at $t = 0.230607361896$", xy=(t_rat_plot, 0.0005), xytext=(0.018, 0.042),
+                 arrowprops={"arrowstyle": "->", "lw": 0.85, "color": "#8B1E3F"}, fontsize=8.0, color="#8B1E3F")
     ax1.set_xlim(0.0, 0.275)
     ax1.set_ylim(0.0, 0.40)
     ax1.set_xlabel(r"Backward heat parameter $t$")
     ax1.set_ylabel(r"Transverse off-line distance $\delta(t) = |\mathrm{Im}\,z(t)|/2$")
-    ax1.set_title(r"(a) Certified Lower Bound $\Lambda_{\mathrm{DH}} > 1153/5000$")
+    ax1.set_title(r"(a) Certified Lower Bound $\Lambda_{\mathrm{DH}} > 0.230607361896$")
     ax1.grid(True, alpha=0.25, lw=0.5)
     ax1.legend(loc="upper right", frameon=True, framealpha=0.92)
 
@@ -594,32 +728,33 @@ def generate_figures(sinc_data: dict[str, object]) -> None:
         (2442.530, 0.897750, 0.199732),
         (6812.190, 0.904115, 0.1842),
         (18420.65, 0.916840, 0.1715),
+        (44838.48, 0.916138, 0.1592),
         (49688.34, 0.931866, 0.1609),
-        (68910.42, 0.921405, 0.1526),
+        (247535.1, 0.946120, 0.1418),
     ]
-    g_env = np.geomspace(70.0, 90000.0, 300)
+    g_env = np.geomspace(70.0, 350000.0, 320)
     h_inf = 0.6203624982
     t_env = 4.0 * h_inf / np.log(5.0 * g_env / (2.0 * np.pi))
 
     ax2.plot(g_env, t_env, color="#1D3557", lw=1.7, ls="--",
              label=r"Leading-order heuristic $4(\sigma^* - \frac{1}{2}) / \log(5\gamma / 2\pi)$")
-    ax2.axhline(0.23060736, color="#8B1E3F", lw=1.2, ls=":", label=r"$t_{\mathrm{col}}(\rho_{240}) \approx 0.23061$")
-    ax2.scatter([p[0] for p in survey_pts], [p[2] for p in survey_pts], color="#8B1E3F", s=28, zorder=5,
-                label=r"Sampled off-line zeros ($\gamma \leq 72{,}500$)")
-    ax2.annotate(r"$\rho_{240}$", xy=(240.4, 0.2306), xytext=(330, 0.252),
-                 arrowprops={"arrowstyle": "->", "lw": 0.8}, fontsize=8.5)
-    ax2.annotate(r"$\rho_{531}$", xy=(531.3, 0.2013), xytext=(780, 0.218),
-                 arrowprops={"arrowstyle": "->", "lw": 0.8}, fontsize=8.5)
-    ax2.annotate(r"$\rho_{2442}$", xy=(2442.5, 0.1997), xytext=(3300, 0.145),
-                 arrowprops={"arrowstyle": "->", "lw": 0.8}, fontsize=8.5)
-    ax2.annotate(r"$\gamma \approx 49{,}688$", xy=(49688, 0.1609), xytext=(12500, 0.105),
+    ax2.axhline(0.23060736, color="#8B1E3F", lw=1.2, ls=":", label=r"$t_{\mathrm{col}}(\rho_{240}) \approx 0.230607$")
+    ax2.scatter([p[0] for p in survey_pts], [p[2] for p in survey_pts], color="#8B1E3F", s=26, zorder=5,
+                label=r"Winding scan ($[0,10^4]$) & resonance peaks")
+    ax2.annotate(r"$\rho_{240}$", xy=(240.4, 0.2306), xytext=(340, 0.256),
+                 arrowprops={"arrowstyle": "->", "lw": 0.8}, fontsize=8.4)
+    ax2.annotate(r"$\rho_{531}$", xy=(531.3, 0.2013), xytext=(820, 0.218),
+                 arrowprops={"arrowstyle": "->", "lw": 0.8}, fontsize=8.4)
+    ax2.annotate(r"$\rho_{2442}$", xy=(2442.5, 0.1997), xytext=(3100, 0.140),
+                 arrowprops={"arrowstyle": "->", "lw": 0.8}, fontsize=8.3)
+    ax2.annotate(r"$\rho_{44838}$", xy=(44838.5, 0.1592), xytext=(11000, 0.104),
                  arrowprops={"arrowstyle": "->", "lw": 0.8}, fontsize=8.2)
     ax2.set_xscale("log")
-    ax2.set_xlim(70, 90000)
+    ax2.set_xlim(70, 350000)
     ax2.set_ylim(0.08, 0.56)
     ax2.set_xlabel(r"Zero height $\gamma = \mathrm{Im}\,\rho$ (logarithmic scale)")
     ax2.set_ylabel(r"Collision time $t_{\mathrm{col}}(\rho)$")
-    ax2.set_title("(b) Numerical Collision Survey vs. Leading-Order Heuristic")
+    ax2.set_title("(b) Collision Survey vs. Leading-Order Heuristic")
     ax2.grid(True, which="both", alpha=0.22, lw=0.5)
     ax2.legend(loc="upper right", frameon=True, framealpha=0.92)
 
@@ -629,21 +764,21 @@ def generate_figures(sinc_data: dict[str, object]) -> None:
     fig.savefig(f1_png, format="png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
-    # --- Figure 2: Sufficient Stieltjes regimes & [0, 311/500] sinc continuation ---
+    # --- Figure 2: Sufficient Stieltjes regimes & [0, 5/8] sinc continuation ---
     fig2, (bx1, bx2) = plt.subplots(1, 2, figsize=(10.6, 4.2), gridspec_kw={"wspace": 0.26})
 
     u_grid = np.linspace(0.05, 18.0, 400)
     h_crit = 0.6203624982
     tau_crit = 2.0 * h_crit
     S_reg1 = 2.0 * u_grid / (4.0 + u_grid ** 2) + 2.0 * u_grid / (9.0 + u_grid ** 2)
-    h_ex = 0.622
+    h_ex = 0.625
     S_cosh = 2.0 * h_ex * np.tanh(2.0 * h_ex * u_grid)
     S_sinc = 2.0 * h_ex / np.tanh(2.0 * h_ex * u_grid) - 1.0 / u_grid
     S_reg3 = 0.16 * u_grid
 
     bx1.plot(u_grid, S_reg1, color="#556B8D", ls="--", lw=1.6, label=r"Polynomial $G(w)$, $S_G(u)\to 0$")
-    bx1.plot(u_grid, S_cosh, color="#1D3557", ls="-", lw=1.8, label=r"$G_{\mathrm{cosh},h}$ ($h=311/500$, $S_G\to 2h$)")
-    bx1.plot(u_grid, S_sinc, color="#8B1E3F", ls="-.", lw=1.9, label=r"$G_{\mathrm{sinc},h}$ ($h=311/500$, $S_G\to 2h$)")
+    bx1.plot(u_grid, S_cosh, color="#1D3557", ls="-", lw=1.8, label=r"$G_{\mathrm{cosh},h}$ ($h=5/8$, $S_G\to 5/4$)")
+    bx1.plot(u_grid, S_sinc, color="#8B1E3F", ls="-.", lw=1.9, label=r"$G_{\mathrm{sinc},h}$ ($h=5/8$, $S_G\to 5/4$)")
     bx1.plot(u_grid, S_reg3, color="#1B4332", ls=":", lw=1.8, label=r"Heat $G_t(w)=\mathrm{e}^{tw}$, $S_G(u)=4tu$")
     bx1.axhline(tau_crit, color="#333333", lw=1.0, ls="--", alpha=0.75, label=r"Threshold $2\sigma^* - 1 \approx 1.2407$")
     bx1.set_xlim(0.0, 18.0)
@@ -654,23 +789,23 @@ def generate_figures(sinc_data: dict[str, object]) -> None:
     bx1.grid(True, alpha=0.25, lw=0.5)
     bx1.legend(loc="upper left", frameon=True, framealpha=0.92)
 
-    flint.ctx.prec = 320
-    tilde_xi = sinc_data["tilde_xi"]
+    flint.ctx.prec = 192
+    tilde_xi_2442 = sinc_data["tilde_xi_2442"]
 
     def g_cosh_eval_and_deriv(z_pt: flint.acb, h_val: flint.arb) -> tuple[flint.acb, flint.acb]:
         sb = flint.acb("0.5") + flint.acb(0, 1) * z_pt / 2
-        f_val = (tilde_xi(sb + h_val) + tilde_xi(sb - h_val)) / 2
-        eps = flint.arb("1e-25")
+        f_val = (tilde_xi_2442(sb + h_val) + tilde_xi_2442(sb - h_val)) / 2
+        eps = flint.arb("1e-20")
         sb_p = sb + flint.acb(0, 1) * eps / 2
         sb_m = sb - flint.acb(0, 1) * eps / 2
-        df_val = ((tilde_xi(sb_p + h_val) + tilde_xi(sb_p - h_val)) - (tilde_xi(sb_m + h_val) + tilde_xi(sb_m - h_val))) / (4 * eps)
+        df_val = ((tilde_xi_2442(sb_p + h_val) + tilde_xi_2442(sb_p - h_val)) - (tilde_xi_2442(sb_m + h_val) + tilde_xi_2442(sb_m - h_val))) / (4 * eps)
         return f_val, df_val
 
     cosh_h_grid = [
         0.001, 0.03, 0.06, 0.09, 0.12, 0.15, 0.18, 0.21, 0.24, 0.27,
         0.30, 0.325, 0.35, 0.37, 0.382, 0.39, 0.394, 0.3965, 0.3975,
     ]
-    cosh_c = []
+    cosh_c = [(0.0, 0.397750155)]
     zc = flint.acb("4885.06058493697206", "-0.79550030995402")
     for hv in cosh_h_grid:
         hp = flint.arb(str(hv))
@@ -681,26 +816,43 @@ def generate_figures(sinc_data: dict[str, object]) -> None:
         cosh_c.append((hv, abs(float(zc.imag.mid())) / 2.0))
     cosh_c.append((0.397750155, 0.0))
 
-    sinc_c = sorted(sinc_data["sinc_curve"], key=lambda p: p[0])
-    sinc_full_h = [p[0] for p in sinc_c] + [0.62456]
+    # Trace rho_2442 under G_sinc for comparison on Panel (b):
+    sinc2442_grid = [0.05 * j for j in range(1, 12)] + [0.58, 0.60, 0.612, 0.618, 0.622, 0.624, 0.6244]
+    sinc2442_c = [(0.0, 0.397750155)]
+    zc2 = flint.acb("4885.06058493697206", "-0.79550030995402")
+    gl24_x, gl24_w = np.polynomial.legendre.leggauss(24)
+    for hv in sinc2442_grid:
+        hp = flint.arb(str(hv))
+        for _ in range(4):
+            sb2 = flint.acb("0.5") + flint.acb(0, 1) * zc2 / 2
+            fv = sum(flint.arb(float(wg) * 0.5) * tilde_xi_2442(sb2 + flint.arb(float(xg) * hv)) for xg, wg in zip(gl24_x, gl24_w))
+            dfv = flint.acb(0, 1) * (tilde_xi_2442(sb2 + hp) - tilde_xi_2442(sb2 - hp)) / (4 * hp)
+            st = fv / dfv
+            zc2 = flint.acb((zc2.real - st.real).mid(), (zc2.imag - st.imag).mid())
+        sinc2442_c.append((hv, abs(float(zc2.imag.mid())) / 2.0))
+    sinc2442_c.append((0.624529, 0.0))
+
+    sinc_c = sorted(sinc_data["sinc_curve_44838"], key=lambda p: p[0])
+    sinc_full_h = [p[0] for p in sinc_c] + [0.6251213]
     sinc_full_d = [p[1] for p in sinc_c] + [0.0]
 
-    bx2.plot([p[0] for p in cosh_c], [p[1] for p in cosh_c], color="#1D3557", lw=1.9, ls="--",
-             label=r"$G_{\mathrm{cosh},h}(-\partial_z^2)\Xi_{\mathrm{DH}}$ ($h_{\mathrm{col}} \approx 0.3978$)")
+    bx2.plot([p[0] for p in cosh_c], [p[1] for p in cosh_c], color="#1D3557", lw=1.8, ls="--",
+             label=r"$G_{\mathrm{cosh},h}$ on $\rho_{2442}$ ($h_{\mathrm{col}} \approx 0.3978$)")
+    bx2.plot([p[0] for p in sinc2442_c], [p[1] for p in sinc2442_c], color="#B85D19", lw=1.6, ls="-.",
+             label=r"$G_{\mathrm{sinc},h}$ on $\rho_{2442}$ ($h_{\mathrm{col}} \approx 0.62453$)")
     bx2.plot(sinc_full_h, sinc_full_d, color="#8B1E3F", lw=2.1, ls="-",
-             label=r"$G_{\mathrm{sinc},h}(-\partial_z^2)\Xi_{\mathrm{DH}}$ (certified on $[0, 311/500]$)")
-    bx2.axvline(h_crit, color="#333333", lw=1.4, ls=":", label=r"$\sigma^* - \frac{1}{2} \approx 0.62036$")
-    bx2.scatter([0.622], [0.05600463 / 2.0], color="#8B1E3F", s=38, zorder=6,
-                label=r"Certified non-real zero at $h = 311/500$")
-    bx2.annotate(r"$h = \frac{311}{500} > \sigma^* - \frac{1}{2}$", xy=(0.622, 0.0280), xytext=(0.405, 0.088),
-                 arrowprops={"arrowstyle": "->", "lw": 0.85, "color": "#8B1E3F"}, fontsize=8.4, color="#8B1E3F")
-    bx2.set_xlim(0.0, 0.655)
-    bx2.set_ylim(0.0, 0.56)
+             label=r"$G_{\mathrm{sinc},h}$ on $\rho_{44838}$ (certified $[0, 5/8]$)")
+    bx2.axvline(h_crit, color="#333333", lw=1.3, ls=":", label=r"$\sigma^* - \frac{1}{2} \approx 0.62036$")
+    bx2.scatter([0.625], [0.01056386 / 2.0], color="#8B1E3F", s=36, zorder=6)
+    bx2.annotate(r"Certified $h = \frac{5}{8}$", xy=(0.625, 0.0053), xytext=(0.415, 0.062),
+                 arrowprops={"arrowstyle": "->", "lw": 0.85, "color": "#8B1E3F"}, fontsize=8.1, color="#8B1E3F")
+    bx2.set_xlim(0.0, 0.662)
+    bx2.set_ylim(0.0, 0.62)
     bx2.set_xlabel(r"Half-width parameter $h = \tau / 2$")
-    bx2.set_ylabel(r"Transverse off-line distance $|\mathrm{Im}\,z(h)|/2$ near $\rho_{2442}$")
-    bx2.set_title(r"(b) Certified Continuation on $h \in [0, 311/500]$")
+    bx2.set_ylabel(r"Transverse off-line distance $|\mathrm{Im}\,z(h)|/2$")
+    bx2.set_title(r"(b) Certified Continuation Across $h \in [0, 5/8]$")
     bx2.grid(True, alpha=0.25, lw=0.5)
-    bx2.legend(loc="upper right", frameon=True, framealpha=0.92)
+    bx2.legend(loc="upper right", frameon=True, framealpha=0.92, fontsize=7.8)
 
     f2_pdf = FIG_DIR / "fig2_polya_schur_sinc_vs_cosh.pdf"
     f2_png = FIG_DIR / "fig2_polya_schur_sinc_vs_cosh.png"
@@ -725,12 +877,12 @@ def main() -> int:
 
     t0 = time.time()
     print("=" * 76)
-    print("PAPER XV RIGOROUS FLINT/ARB BALL-ARITHMETIC VERIFICATION SUITE")
+    print("PAPER XV RIGOROUS FLINT/ARB BALL-ARITHMETIC VERIFICATION SUITE (v15.2.0)")
     print("=" * 76)
-    _, h_inf_star, _ = certify_supremum_sigma_star()
+    sigma_star, h_inf_star, _ = certify_supremum_sigma_star()
     sinc_data = certify_polya_sinc_separation(h_inf_star)
     certify_heat_flow_witness()
-    verify_analytic_lemmas()
+    verify_analytic_lemmas(sigma_star)
     if args.regenerate_figures:
         generate_figures(sinc_data)
     print("=" * 76)
