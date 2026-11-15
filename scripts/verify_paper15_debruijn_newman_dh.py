@@ -629,6 +629,76 @@ def verify_analytic_lemmas(sigma_star: flint.arb) -> None:
         f"eff_order={float(eff_order):.6f} (OK)"
     )
 
+    # 4f. Dynamic u-plane supercritical shift margin and clustered gap-violating check (v15.3.0):
+    delta_star = sigma_star - flint.arb("0.5")
+    case3_margin = flint.arb("0.25") - flint.arb("0.5") * delta_star
+    assert case3_margin < flint.arb("-0.0601"), f"Unexpected Case 3 outer-strip margin: {case3_margin}"
+    for x_probe in ("0.001", "0.1", "1.0", "10.0", "1000.0"):
+        xv = flint.arb(x_probe)
+        assert 4 * (1 + xv).log() - (2 * xv) / (1 + xv) > 0
+
+    mp.mp.dps = 30
+    pi_mp = mp.pi
+    kap_mp = (mp.sqrt(10 - 2 * mp.sqrt(5)) - 2) / (mp.sqrt(5) - 1)
+    roots_cl = [(mp.mpf("1.5"), 10), (mp.mpf("4.0"), 250)]
+
+    def g_cl(w: mp.mpc) -> mp.mpc:
+        val = mp.mpc(1)
+        for wj, mj in roots_cl:
+            val *= (1 + w / wj) ** mj
+        return val
+
+    def sg_cl(u: mp.mpf) -> mp.mpf:
+        return sum(mj * 2 * u / (wj + u * u) for wj, mj in roots_cl)
+
+    def d_dh_mp(s: mp.mpc) -> mp.mpc:
+        return (1 - 1j * kap_mp) / 2 * mp.dirichlet(s, [0, 1, 1j, -1j, -1]) + (
+            1 + 1j * kap_mp
+        ) / 2 * mp.dirichlet(s, [0, 1, -1j, 1j, -1])
+
+    gam_cl = mp.mpf(1600)
+    v0_cl = mp.mpf("0.25") * mp.log(5 * gam_cl / (2 * pi_mp))
+    tau_cl = sg_cl(v0_cl)
+    y0_cl = pi_mp / 8 - (tau_cl + 3) / (8 * gam_cl)
+    s_cl = mp.mpf("0.5") + 1j * gam_cl
+    omega_cl = v0_cl + 1j * y0_cl
+    a_coeffs = [0, 1, kap_mp, -kap_mp, -1]
+
+    def phi_dh_mp(u: mp.mpc) -> mp.mpc:
+        e4u = mp.exp(4 * u)
+        tot = mp.mpc(0)
+        for n in range(1, 35):
+            r = n % 5
+            if r != 0:
+                tot += a_coeffs[r] * n * mp.exp(-pi_mp * n * n * e4u / 5)
+        return 4 * mp.exp(3 * u) * tot
+
+    def integ_cl(v: mp.mpf) -> mp.mpc:
+        u = v + 1j * y0_cl
+        return g_cl(u * u) * phi_dh_mp(u) * mp.exp(2j * gam_cl * u)
+
+    r_sad = 6 / mp.sqrt(gam_cl)
+    pts_cl = sorted(
+        set(
+            [mp.mpf(k) * v0_cl / 40 for k in range(35)]
+            + [v0_cl - r_sad + k * r_sad / 12 for k in range(25)]
+            + [v0_cl + mp.mpf("0.5"), mp.mpf("2.5")]
+        )
+    )
+    pts_cl = [p for p in pts_cl if 0 <= p <= mp.mpf("2.5")]
+    ag_cl = mp.quad(integ_cl, pts_cl)
+    m0_cl = (
+        4 * mp.sqrt(pi_mp / (4 * gam_cl)) * mp.exp(-1j * pi_mp / 4)
+        * g_cl(omega_cl * omega_cl)
+        * mp.exp((3 + 2j * gam_cl) * omega_cl - pi_mp / 5 * mp.exp(4 * omega_cl))
+    )
+    rel_cl = float(abs(ag_cl - m0_cl * d_dh_mp(s_cl + tau_cl / 2)) / abs(ag_cl))
+    assert rel_cl < 0.03, f"Clustered Case 3 asymptotic check failed: rel={rel_cl}"
+    print(
+        f"      Dynamic u-plane margin: 1/4-(sigma*-1/2)/2 < -0.0601; "
+        f"clustered gap-violating error at gamma=1600: {rel_cl:.4e} < 0.03 (OK)"
+    )
+
 
 # ============================================================================
 # 5. OPTIONAL FIGURE GENERATION (--regenerate-figures)
@@ -877,7 +947,7 @@ def main() -> int:
 
     t0 = time.time()
     print("=" * 76)
-    print("PAPER XV RIGOROUS FLINT/ARB BALL-ARITHMETIC VERIFICATION SUITE (v15.2.0)")
+    print("PAPER XV RIGOROUS FLINT/ARB BALL-ARITHMETIC VERIFICATION SUITE (v15.3.0)")
     print("=" * 76)
     sigma_star, h_inf_star, _ = certify_supremum_sigma_star()
     sinc_data = certify_polya_sinc_separation(h_inf_star)

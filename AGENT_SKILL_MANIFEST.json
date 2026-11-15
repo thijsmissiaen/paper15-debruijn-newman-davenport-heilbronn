@@ -1,7 +1,7 @@
 {
   "manifest_version": "1.0.0",
   "paper_number": 15,
-  "version": "15.2.0",
+  "version": "15.3.0",
   "doi": "10.5281/zenodo.24141103",
   "repository": "https://github.com/thijsmissiaen/paper15-debruijn-newman-davenport-heilbronn",
   "title": "Asymptotic Shift Thresholds for Polya-Schur Multipliers and a Certified Lower Bound on the de Bruijn-Newman Constant of the Davenport-Heilbronn Function",
@@ -20,7 +20,7 @@
       "id": "Theorem 2.6 & Proposition 2.7",
       "name": "Sufficient Stieltjes Shift Conditions on Polya-Schur Multipliers & Lacunary Root-Gap Obstruction",
       "status": "PROVED_UNCONDITIONAL",
-      "verification": "Conjugate-diagram Borel-Laplace cap asymptotics (generalizing Dobner 2021), single-zero syndetic Dirichlet translation avoiding Righetti (2017) non-density, diagonal Bohr compactness + seamless Rouche rectangles on tau > 2*sigma* - 1, subproduct extraction under w_{j+1} - w_j = o(sqrt(w_j)), and tower-lacunary counterexample R_1 = 16, R_k = 2^(2^(R_{k-1}))"
+      "verification": "Conjugate-diagram Borel-Laplace cap asymptotics (generalizing Dobner 2021), single-zero syndetic Dirichlet translation avoiding Righetti (2017) non-density, diagonal Bohr compactness + seamless Rouche rectangles on tau > 2*sigma* - 1, unconditional dynamic u-plane horizontal-contour proof for every liminf_{u->infty} S_G(u) > 2*sigma* - 1 (including all lower order rho_lower(G) > 1/2) without any root-gap regularity, and tower-lacunary counterexample R_1 = 16, R_k = 2^(2^(R_{k-1}))"
     },
     {
       "id": "Theorem 3.2",

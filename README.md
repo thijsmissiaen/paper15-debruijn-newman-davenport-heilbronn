@@ -2,7 +2,7 @@
 
 **DOI (Zenodo / CERN):** [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24141103.svg)](https://doi.org/10.5281/zenodo.24141103) [`10.5281/zenodo.24141103`](https://doi.org/10.5281/zenodo.24141103)  
 **Author:** Thijs Missiaen (Independent Researcher, Belgium · ORCID: [0009-0007-3678-0810](https://orcid.org/0009-0007-3678-0810))  
-**Series:** Transverse Wronskian & Phase-Space Analysis of Riemann's $\Xi$-Function (Paper XV, v15.2.0)  
+**Series:** Transverse Wronskian & Phase-Space Analysis of Riemann's $\Xi$-Function (Paper XV, v15.3.0)  
 **MSC 2020:** Primary 11M41, 11M26; Secondary 30D15, 26C10, 65G20
 
 ---
@@ -24,8 +24,8 @@ This paper establishes sufficient asymptotic shift conditions for real entire P�
 Writing $G(w) = \mathrm{e}^{\lambda w}\prod _ {j=1}^\infty (1 + w/w _ j)$ ($\lambda \ge 0$, $\sum w _ j^{-1} < \infty$) and $S _ G(u) := \frac{\mathrm{d}}{\mathrm{d}u}\log G(u^2) = 4\lambda u + \sum _ {j=1}^\infty \frac{2u}{w _ j + u^2}$, we generalize Dobner's (2021) modified Dirichlet-series approximation via Pólya's conjugate-diagram Borel–Laplace representation and single-zero Diophantine translation (avoiding Righetti's 2017 non-density phenomenon):
 
 * *Zero-shift persistence* ($\lambda = 0$, $\sum w _ j^{-1/2} < \infty$, including every polynomial and every multiplier of upper order $\rho(G) < 1/2$): $\lim _ {u\to\infty} S _ G(u) = 0$ and $N _ {\mathrm{off}}(G(-\partial _ z^2)\Xi _ {\mathrm{DH}}; T) \gg _ G T$ inside $\lvert\mathrm{Im}(z)\rvert > 1$; in particular, $(1 - \beta\partial _ z^2)\Xi _ {\mathrm{DH}}(z)$ has infinitely many non-real zeros for every $\beta > 0$.
-* *Finite Stieltjes shift* ($\lambda = 0$, $\lim _ {u\to\infty} S _ G(u) = \tau \in (0,\infty){}$): $N _ {\mathrm{off}}(G(-\partial _ z^2)\Xi _ {\mathrm{DH}}; T) \gg _ G T$ for every $0 < \tau < 2\sigma^{\ast} - 1$, whereas $N _ {\mathrm{off}}(G(-\partial _ z^2)\Xi _ {\mathrm{DH}}; \infty) < \infty$ for every $\tau > 2\sigma^{\ast} - 1$.
-* *Divergent Stieltjes shift and root-gap regularity:* Every $G$ with $\lambda > 0$ or lower order $\underline{\rho}(G) > 1/2$ satisfies $\lim _ {u\to\infty} S _ G(u) = +\infty$, and $N _ {\mathrm{off}}(G(-\partial _ z^2)\Xi _ {\mathrm{DH}}; \infty) < \infty$ holds whenever $\lambda > 0$, or whenever $\lambda = 0$ and $w _ {j+1} - w _ j = o(\sqrt{w _ j})$. Conversely, for every $\rho \in (1/2, 1)$, setting $R _ 1 := 16$ and $R _ k := 2^{2^{R _ {k-1}}}$ ($k \ge 2$), the tower-lacunary canonical product $G _ {\mathrm{lac}}(w) = \prod _ {k=1}^\infty (1 + w/R _ k^2)^{\lfloor R _ k^{2\rho}\rfloor}$ has upper order $\rho$ and lower order $0$, satisfies $\liminf _ {u\to\infty} S _ {G _ {\mathrm{lac}}}(u) = 0$, and leaves infinitely many non-real zeros in $\lvert\mathrm{Im}(z)\rvert > 1$.
+* *Finite and supercritical Stieltjes shifts:* When $\lambda = 0$ and $\lim _ {u\to\infty} S _ G(u) = \tau \in (0, 2\sigma^{\ast} - 1)$, $N _ {\mathrm{off}}(G(-\partial _ z^2)\Xi _ {\mathrm{DH}}; T) \gg _ G T$; whereas whenever $\lambda = 0$ and $\liminf _ {u\to\infty} S _ G(u) > 2\sigma^{\ast} - 1$ (covering finite limits $\tau > 2\sigma^{\ast} - 1$, oscillatory shifts strictly above $2\sigma^{\ast} - 1$, and all cases with $\lim _ {u\to\infty} S _ G(u) = +\infty$ with no root-gap regularity condition), $N _ {\mathrm{off}}(G(-\partial _ z^2)\Xi _ {\mathrm{DH}}; \infty) < \infty$.
+* *Lower order and lacunary obstruction:* Every $G$ with $\lambda > 0$ or lower order $\underline{\rho}(G) > 1/2$ satisfies $\lim _ {u\to\infty} S _ G(u) = +\infty$ and therefore $N _ {\mathrm{off}}(G(-\partial _ z^2)\Xi _ {\mathrm{DH}}; \infty) < \infty$ unconditionally without any root-gap regularity. Conversely, for every $\rho \in (1/2, 1)$, setting $R _ 1 := 16$ and $R _ k := 2^{2^{R _ {k-1}}}$ ($k \ge 2$), the tower-lacunary canonical product $G _ {\mathrm{lac}}(w) = \prod _ {k=1}^\infty (1 + w/R _ k^2)^{\lfloor R _ k^{2\rho}\rfloor}$ has upper order $\rho$ and lower order $0$, satisfies $\liminf _ {u\to\infty} S _ {G _ {\mathrm{lac}}}(u) = 0$, and leaves infinitely many non-real zeros in $\lvert\mathrm{Im}(z)\rvert > 1$.
 
 ### 2. Global Doubling Bound, Threshold Separation, and Conditional Critical Boundary for Pólya's Sinc Multiplier (Section 3)
 
@@ -52,7 +52,7 @@ $$
 ## Repository Structure & Reproducibility
 
 * [`paper/paper15_debruijn_newman_dh.tex`](paper/paper15_debruijn_newman_dh.tex) – AMS-LaTeX manuscript.
-* [`paper/paper15_debruijn_newman_dh.pdf`](paper/paper15_debruijn_newman_dh.pdf) – Compiled PDF (20 pages, AMS-LaTeX / pdfTeX).
+* [`paper/paper15_debruijn_newman_dh.pdf`](paper/paper15_debruijn_newman_dh.pdf) – Compiled PDF (22 pages, AMS-LaTeX / pdfTeX).
 * [`scripts/verify_paper15_debruijn_newman_dh.py`](scripts/verify_paper15_debruijn_newman_dh.py) – Rigorous 320-bit, 384-bit, and 512-bit `python-flint` (`FLINT/Arb`) ball-arithmetic verification suite (pass `--regenerate-figures` to rebuild `figures/`).
 * [`figures/`](figures/) – Vector PDF and 300-DPI PNG figures (`fig1_heat_flow_separation_witnesses`, `fig2_polya_schur_sinc_vs_cosh`).
 * [`.agents/skills/debruijn-newman-davenport-heilbronn/SKILL.md`](.agents/skills/debruijn-newman-davenport-heilbronn/SKILL.md) – Self-contained mathematical knowledge skill.
